@@ -1,8 +1,8 @@
-namespace Appwrite
+namespace AppwriteSDK.Models
 {
     public enum OrderType
     {
-        ASC, 
-        DESC
+        Asc,
+        Desc
     }
 }

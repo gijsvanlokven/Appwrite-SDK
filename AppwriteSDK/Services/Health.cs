@@ -1,14 +1,15 @@
-
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
 
 namespace Appwrite
 {
     public class Health : Service
     {
-        public Health(Client client) : base(client) { }
+        public Health(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// Get HTTP
@@ -16,7 +17,7 @@ namespace Appwrite
         /// Check the Appwrite HTTP server is up and responsive.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get() 
+        public async Task<HttpResponseMessage> Get()
         {
             string path = "/health";
 
@@ -38,7 +39,7 @@ namespace Appwrite
         /// Check the Appwrite Anti Virus server is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetAntiVirus() 
+        public async Task<HttpResponseMessage> GetAntiVirus()
         {
             string path = "/health/anti-virus";
 
@@ -61,7 +62,7 @@ namespace Appwrite
         /// successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCache() 
+        public async Task<HttpResponseMessage> GetCache()
         {
             string path = "/health/cache";
 
@@ -83,7 +84,7 @@ namespace Appwrite
         /// Check the Appwrite database server is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetDB() 
+        public async Task<HttpResponseMessage> GetDB()
         {
             string path = "/health/db";
 
@@ -107,7 +108,7 @@ namespace Appwrite
         /// server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueCertificates() 
+        public async Task<HttpResponseMessage> GetQueueCertificates()
         {
             string path = "/health/queue/certificates";
 
@@ -126,7 +127,7 @@ namespace Appwrite
         /// <summary>
         /// Get Functions Queue
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueFunctions() 
+        public async Task<HttpResponseMessage> GetQueueFunctions()
         {
             string path = "/health/queue/functions";
 
@@ -149,7 +150,7 @@ namespace Appwrite
         /// internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueLogs() 
+        public async Task<HttpResponseMessage> GetQueueLogs()
         {
             string path = "/health/queue/logs";
 
@@ -172,7 +173,7 @@ namespace Appwrite
         /// internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueTasks() 
+        public async Task<HttpResponseMessage> GetQueueTasks()
         {
             string path = "/health/queue/tasks";
 
@@ -195,7 +196,7 @@ namespace Appwrite
         /// Appwrite internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueUsage() 
+        public async Task<HttpResponseMessage> GetQueueUsage()
         {
             string path = "/health/queue/usage";
 
@@ -218,7 +219,7 @@ namespace Appwrite
         /// internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueWebhooks() 
+        public async Task<HttpResponseMessage> GetQueueWebhooks()
         {
             string path = "/health/queue/webhooks";
 
@@ -240,7 +241,7 @@ namespace Appwrite
         /// Check the Appwrite local storage device is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetStorageLocal() 
+        public async Task<HttpResponseMessage> GetStorageLocal()
         {
             string path = "/health/storage/local";
 
@@ -268,7 +269,7 @@ namespace Appwrite
         /// uses NTP.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetTime() 
+        public async Task<HttpResponseMessage> GetTime()
         {
             string path = "/health/time";
 

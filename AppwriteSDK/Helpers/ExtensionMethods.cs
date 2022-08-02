@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
 
-namespace Appwrite
+namespace AppwriteSDK.Helpers
 {
     public static class ExtensionMethods
     {
@@ -21,25 +22,25 @@ namespace Appwrite
 
         public static string ToQueryString(this Dictionary<string, object> parameters)
         {
-            List<string> query = new List<string>();
+            var query = new List<string>();
 
-            foreach (KeyValuePair<string, object> parameter in parameters)
+            foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
             {
-                if (parameter.Value != null)
+                if (parameter.Value is List<object>)
                 {
-                    if (parameter.Value is List<object>)
+                    foreach (object entry in (dynamic)parameter.Value)
                     {
-                        foreach(object entry in (dynamic) parameter.Value) 
-                        {
-                            query.Add(parameter.Key + "[]=" + Uri.EscapeUriString(entry.ToString()));
-                        }
-                    } 
-                    else 
-                    {
-                        query.Add(parameter.Key + "=" + Uri.EscapeUriString(parameter.Value.ToString()));
+                        query.Add(parameter.Key + "[]=" +
+                                  Uri.EscapeUriString(entry.ToString() ?? throw new InvalidOperationException()));
                     }
                 }
+                else
+                {
+                    query.Add(parameter.Key + "=" +
+                              Uri.EscapeUriString(parameter.Value.ToString() ?? throw new InvalidOperationException()));
+                }
             }
+
             return string.Join("&", query);
         }
     }

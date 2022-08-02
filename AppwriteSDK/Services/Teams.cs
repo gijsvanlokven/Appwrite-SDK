@@ -1,14 +1,16 @@
-
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
+using AppwriteSDK.Models;
 
 namespace Appwrite
 {
     public class Teams : Service
     {
-        public Teams(Client client) : base(client) { }
+        public Teams(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// List Teams
@@ -19,7 +21,8 @@ namespace Appwrite
         /// modes](/docs/admin).
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
+            OrderType orderType = OrderType.Asc)
         {
             string path = "/teams";
 
@@ -48,7 +51,7 @@ namespace Appwrite
         /// project.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string name, List<object> roles = null) 
+        public async Task<HttpResponseMessage> Create(string name, List<object> roles = null)
         {
             string path = "/teams";
 
@@ -73,7 +76,7 @@ namespace Appwrite
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string teamId) 
+        public async Task<HttpResponseMessage> Get(string teamId)
         {
             string path = "/teams/{teamId}".Replace("{teamId}", teamId);
 
@@ -96,7 +99,7 @@ namespace Appwrite
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Update(string teamId, string name) 
+        public async Task<HttpResponseMessage> Update(string teamId, string name)
         {
             string path = "/teams/{teamId}".Replace("{teamId}", teamId);
 
@@ -120,7 +123,7 @@ namespace Appwrite
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string teamId) 
+        public async Task<HttpResponseMessage> Delete(string teamId)
         {
             string path = "/teams/{teamId}".Replace("{teamId}", teamId);
 
@@ -143,7 +146,8 @@ namespace Appwrite
         /// for this list of resources.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetMemberships(string teamId, string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> GetMemberships(string teamId, string search = "", int? limit = 25,
+            int? offset = 0, OrderType orderType = OrderType.Asc)
         {
             string path = "/teams/{teamId}/memberships".Replace("{teamId}", teamId);
 
@@ -181,7 +185,8 @@ namespace Appwrite
         /// added your platforms in the console interface.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateMembership(string teamId, string email, List<object> roles, string url, string name = "") 
+        public async Task<HttpResponseMessage> CreateMembership(string teamId, string email, List<object> roles,
+            string url, string name = "")
         {
             string path = "/teams/{teamId}/memberships".Replace("{teamId}", teamId);
 
@@ -204,9 +209,11 @@ namespace Appwrite
         /// <summary>
         /// Update Membership Roles
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateMembershipRoles(string teamId, string membershipId, List<object> roles) 
+        public async Task<HttpResponseMessage> UpdateMembershipRoles(string teamId, string membershipId,
+            List<object> roles)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId).Replace("{membershipId}", membershipId);
+            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId)
+                .Replace("{membershipId}", membershipId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
@@ -229,9 +236,10 @@ namespace Appwrite
         /// delete a user membership even if it is not accepted.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteMembership(string teamId, string membershipId) 
+        public async Task<HttpResponseMessage> DeleteMembership(string teamId, string membershipId)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId).Replace("{membershipId}", membershipId);
+            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId)
+                .Replace("{membershipId}", membershipId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
@@ -253,9 +261,11 @@ namespace Appwrite
         /// by the user.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateMembershipStatus(string teamId, string membershipId, string userId, string secret) 
+        public async Task<HttpResponseMessage> UpdateMembershipStatus(string teamId, string membershipId, string userId,
+            string secret)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}/status".Replace("{teamId}", teamId).Replace("{membershipId}", membershipId);
+            string path = "/teams/{teamId}/memberships/{membershipId}/status".Replace("{teamId}", teamId)
+                .Replace("{membershipId}", membershipId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {

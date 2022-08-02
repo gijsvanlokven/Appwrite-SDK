@@ -1,14 +1,15 @@
-
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
 
 namespace Appwrite
 {
     public class Locale : Service
     {
-        public Locale(Client client) : base(client) { }
+        public Locale(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// Get User Locale
@@ -21,7 +22,7 @@ namespace Appwrite
         /// ([IP Geolocation by DB-IP](https://db-ip.com))
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get() 
+        public async Task<HttpResponseMessage> Get()
         {
             string path = "/locale";
 
@@ -44,7 +45,7 @@ namespace Appwrite
         /// supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetContinents() 
+        public async Task<HttpResponseMessage> GetContinents()
         {
             string path = "/locale/continents";
 
@@ -67,7 +68,7 @@ namespace Appwrite
         /// supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountries() 
+        public async Task<HttpResponseMessage> GetCountries()
         {
             string path = "/locale/countries";
 
@@ -90,7 +91,7 @@ namespace Appwrite
         /// locale header to get the data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountriesEU() 
+        public async Task<HttpResponseMessage> GetCountriesEU()
         {
             string path = "/locale/countries/eu";
 
@@ -113,7 +114,7 @@ namespace Appwrite
         /// data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountriesPhones() 
+        public async Task<HttpResponseMessage> GetCountriesPhones()
         {
             string path = "/locale/countries/phones";
 
@@ -137,7 +138,7 @@ namespace Appwrite
         /// header to get the data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCurrencies() 
+        public async Task<HttpResponseMessage> GetCurrencies()
         {
             string path = "/locale/currencies";
 
@@ -160,7 +161,7 @@ namespace Appwrite
         /// in English, and name in the respective language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetLanguages() 
+        public async Task<HttpResponseMessage> GetLanguages()
         {
             string path = "/locale/languages";
 

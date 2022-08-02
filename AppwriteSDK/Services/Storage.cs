@@ -1,14 +1,18 @@
-
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
+using AppwriteSDK.Helpers;
+using AppwriteSDK.Models;
 
 namespace Appwrite
 {
     public class Storage : Service
     {
-        public Storage(Client client) : base(client) { }
+        public Storage(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// List Files
@@ -18,7 +22,8 @@ namespace Appwrite
         /// project's files. [Learn more about different API modes](/docs/admin).
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListFiles(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> ListFiles(string search = "", int? limit = 25, int? offset = 0,
+            OrderType orderType = OrderType.Asc)
         {
             string path = "/storage/files";
 
@@ -46,7 +51,8 @@ namespace Appwrite
         /// read and write arguments.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateFile(FileInfo file, List<object> read = null, List<object> write = null) 
+        public async Task<HttpResponseMessage> CreateFile(FileInfo file, List<object> read = null,
+            List<object> write = null)
         {
             string path = "/storage/files";
 
@@ -72,7 +78,7 @@ namespace Appwrite
         /// with the file metadata.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetFile(string fileId) 
+        public async Task<HttpResponseMessage> GetFile(string fileId)
         {
             string path = "/storage/files/{fileId}".Replace("{fileId}", fileId);
 
@@ -95,7 +101,7 @@ namespace Appwrite
         /// access to update this resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateFile(string fileId, List<object> read, List<object> write) 
+        public async Task<HttpResponseMessage> UpdateFile(string fileId, List<object> read, List<object> write)
         {
             string path = "/storage/files/{fileId}".Replace("{fileId}", fileId);
 
@@ -120,7 +126,7 @@ namespace Appwrite
         /// access to delete this resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteFile(string fileId) 
+        public async Task<HttpResponseMessage> DeleteFile(string fileId)
         {
             string path = "/storage/files/{fileId}".Replace("{fileId}", fileId);
 
@@ -144,7 +150,7 @@ namespace Appwrite
         /// downloading the file to user downloads directory.
         /// </para>
         /// </summary>
-        public string GetFileDownload(string fileId) 
+        public string GetFileDownload(string fileId)
         {
             string path = "/storage/files/{fileId}/download".Replace("{fileId}", fileId);
 
@@ -153,7 +159,7 @@ namespace Appwrite
             };
             // { "project", _client.GetConfig().get("project") },
             // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -166,7 +172,9 @@ namespace Appwrite
         /// string arguments for cutting and resizing your preview image.
         /// </para>
         /// </summary>
-        public string GetFilePreview(string fileId, int? width = 0, int? height = 0, string gravity = "center", int? quality = 100, int? borderWidth = 0, string borderColor = "", int? borderRadius = 0, number opacity = , int? rotation = 0, string background = "", string output = "") 
+        public string GetFilePreview(string fileId, int? width = 0, int? height = 0, string gravity = "center",
+            int? quality = 100, int? borderWidth = 0, string borderColor = "", int? borderRadius = 0, int? opacity = 0,
+            int? rotation = 0, string background = "", string output = "")
         {
             string path = "/storage/files/{fileId}/preview".Replace("{fileId}", fileId);
 
@@ -186,7 +194,7 @@ namespace Appwrite
             };
             // { "project", _client.GetConfig().get("project") },
             // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -198,7 +206,7 @@ namespace Appwrite
         /// header.
         /// </para>
         /// </summary>
-        public string GetFileView(string fileId) 
+        public string GetFileView(string fileId)
         {
             string path = "/storage/files/{fileId}/view".Replace("{fileId}", fileId);
 
@@ -207,7 +215,7 @@ namespace Appwrite
             };
             // { "project", _client.GetConfig().get("project") },
             // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
     };

@@ -1,14 +1,17 @@
-
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
+using AppwriteSDK.Models;
 
 namespace Appwrite
 {
     public class Functions : Service
     {
-        public Functions(Client client) : base(client) { }
+        public Functions(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// List Functions
@@ -17,7 +20,8 @@ namespace Appwrite
         /// filter your results.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
+            OrderType orderType = OrderType.Asc)
         {
             string path = "/functions";
 
@@ -45,7 +49,8 @@ namespace Appwrite
         /// with access to execute the function using the client API.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string name, List<object> execute, string runtime, object vars = null, List<object> events = null, string schedule = "", int? timeout = 15) 
+        public async Task<HttpResponseMessage> Create(string name, List<object> execute, string runtime,
+            object vars = null, List<object> events = null, string schedule = "", int? timeout = 15)
         {
             string path = "/functions";
 
@@ -74,7 +79,7 @@ namespace Appwrite
         /// Get a function by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string functionId) 
+        public async Task<HttpResponseMessage> Get(string functionId)
         {
             string path = "/functions/{functionId}".Replace("{functionId}", functionId);
 
@@ -96,7 +101,8 @@ namespace Appwrite
         /// Update function by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Update(string functionId, string name, List<object> execute, object vars = null, List<object> events = null, string schedule = "", int? timeout = 15) 
+        public async Task<HttpResponseMessage> Update(string functionId, string name, List<object> execute,
+            object vars = null, List<object> events = null, string schedule = "", int? timeout = 15)
         {
             string path = "/functions/{functionId}".Replace("{functionId}", functionId);
 
@@ -124,7 +130,7 @@ namespace Appwrite
         /// Delete a function by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string functionId) 
+        public async Task<HttpResponseMessage> Delete(string functionId)
         {
             string path = "/functions/{functionId}".Replace("{functionId}", functionId);
 
@@ -149,7 +155,8 @@ namespace Appwrite
         /// different API modes](/docs/admin).
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListExecutions(string functionId, string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> ListExecutions(string functionId, string search = "", int? limit = 25,
+            int? offset = 0, OrderType orderType = OrderType.Asc)
         {
             string path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
 
@@ -178,7 +185,7 @@ namespace Appwrite
         /// function execution process will start asynchronously.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateExecution(string functionId, string data = "") 
+        public async Task<HttpResponseMessage> CreateExecution(string functionId, string data = "")
         {
             string path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
 
@@ -201,9 +208,10 @@ namespace Appwrite
         /// Get a function execution log by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetExecution(string functionId, string executionId) 
+        public async Task<HttpResponseMessage> GetExecution(string functionId, string executionId)
         {
-            string path = "/functions/{functionId}/executions/{executionId}".Replace("{functionId}", functionId).Replace("{executionId}", executionId);
+            string path = "/functions/{functionId}/executions/{executionId}".Replace("{functionId}", functionId)
+                .Replace("{executionId}", executionId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
@@ -225,7 +233,7 @@ namespace Appwrite
         /// endpoint.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateTag(string functionId, string tag) 
+        public async Task<HttpResponseMessage> UpdateTag(string functionId, string tag)
         {
             string path = "/functions/{functionId}/tag".Replace("{functionId}", functionId);
 
@@ -249,7 +257,8 @@ namespace Appwrite
         /// filter your results.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListTags(string functionId, string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> ListTags(string functionId, string search = "", int? limit = 25,
+            int? offset = 0, OrderType orderType = OrderType.Asc)
         {
             string path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
 
@@ -284,7 +293,7 @@ namespace Appwrite
         /// Use the "command" param to set the entry point used to execute your code.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateTag(string functionId, string command, FileInfo code) 
+        public async Task<HttpResponseMessage> CreateTag(string functionId, string command, FileInfo code)
         {
             string path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
 
@@ -308,9 +317,10 @@ namespace Appwrite
         /// Get a code tag by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetTag(string functionId, string tagId) 
+        public async Task<HttpResponseMessage> GetTag(string functionId, string tagId)
         {
-            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId).Replace("{tagId}", tagId);
+            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
+                .Replace("{tagId}", tagId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
@@ -330,9 +340,10 @@ namespace Appwrite
         /// Delete a code tag by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteTag(string functionId, string tagId) 
+        public async Task<HttpResponseMessage> DeleteTag(string functionId, string tagId)
         {
-            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId).Replace("{tagId}", tagId);
+            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
+                .Replace("{tagId}", tagId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {

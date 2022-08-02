@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,193 +7,214 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using AppwriteSDK.Helpers;
+using AppwriteSDK.Models;
+using Newtonsoft.Json.Linq;
 
-namespace Appwrite
+namespace AppwriteSDK
 {
     public class Client
     {
-        private readonly HttpClient http;
-        private readonly Dictionary<string, string> headers;
-        private readonly Dictionary<string, string> config;
-        private string endPoint;
-        private bool selfSigned;
-        
+        private readonly Dictionary<string, string> _config;
+        private readonly Dictionary<string, string> _headers;
+        private readonly HttpClient _http;
+        private string _endPoint;
+        private bool _selfSigned;
+
         public Client() : this("https://appwrite.io/v1", false, new HttpClient())
         {
         }
 
-        public Client(string endPoint, bool selfSigned, HttpClient http)
+        private Client(string endPoint, bool selfSigned, HttpClient http)
         {
-            this.endPoint = endPoint;
-            this.selfSigned = selfSigned;
-            this.headers = new Dictionary<string, string>()
+            this._endPoint = endPoint;
+            this._selfSigned = selfSigned;
+            this._headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" },
                 { "x-sdk-version", "appwrite:dotnet:0.3.0" },
                 { "X-Appwrite-Response-Format", "0.9.0" }
             };
-            this.config = new Dictionary<string, string>();
-            this.http = http;                 
+            this._config = new Dictionary<string, string>();
+            this._http = http;
         }
 
         public Client SetSelfSigned(bool selfSigned)
         {
-            this.selfSigned = selfSigned;
+            this._selfSigned = selfSigned;
             return this;
         }
 
         public Client SetEndPoint(string endPoint)
         {
-            this.endPoint = endPoint;
+            this._endPoint = endPoint;
             return this;
         }
 
         public string GetEndPoint()
         {
-            return endPoint;
+            return _endPoint;
         }
 
         public Dictionary<string, string> GetConfig()
         {
-            return config;
+            return _config;
         }
 
         /// <summary>Your project ID</summary>
-        public Client SetProject(string value) {
-            config.Add("project", value);
+        public Client SetProject(string value)
+        {
+            _config.Add("project", value);
             AddHeader("X-Appwrite-Project", value);
             return this;
         }
 
         /// <summary>Your secret API key</summary>
-        public Client SetKey(string value) {
-            config.Add("key", value);
+        public Client SetKey(string value)
+        {
+            _config.Add("key", value);
             AddHeader("X-Appwrite-Key", value);
             return this;
         }
 
         /// <summary>Your secret JSON Web Token</summary>
-        public Client SetJWT(string value) {
-            config.Add("jWT", value);
+        public Client SetJwt(string value)
+        {
+            _config.Add("jWT", value);
             AddHeader("X-Appwrite-JWT", value);
             return this;
         }
 
-        public Client SetLocale(string value) {
-            config.Add("locale", value);
+        public Client SetLocale(string value)
+        {
+            _config.Add("locale", value);
             AddHeader("X-Appwrite-Locale", value);
             return this;
         }
 
-        public Client AddHeader(String key, String value)
+        private void AddHeader(string key, string value)
         {
-            headers.Add(key, value);
-            return this;
+            _headers.Add(key, value);
         }
 
-        public async Task<HttpResponseMessage> Call(string method, string path, Dictionary<string, string> headers, Dictionary<string, object> parameters)
+        public async Task<HttpResponseMessage> Call(string method, string path, Dictionary<string, string> headers,
+            Dictionary<string, object> parameters)
         {
-            if (selfSigned)
+            if (_selfSigned)
             {
-                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
+                ServicePointManager.ServerCertificateValidationCallback +=
+                    (sender, certificate, chain, sslPolicyErrors) => true;
             }
 
-            bool methodGet = "GET".Equals(method, StringComparison.InvariantCultureIgnoreCase);
+            var methodGet = "GET".Equals(value: method, comparisonType: StringComparison.InvariantCultureIgnoreCase);
 
-            string queryString = methodGet ? "?" + parameters.ToQueryString() : string.Empty;
+            var queryString = methodGet ? "?" + parameters.ToQueryString() : string.Empty;
 
-            HttpRequestMessage request = new HttpRequestMessage(new HttpMethod(method), endPoint + path + queryString);
+            var request = new HttpRequestMessage(method: new HttpMethod(method: method),
+                requestUri: _endPoint + path + queryString);
 
-            if ("multipart/form-data".Equals(headers["content-type"], StringComparison.InvariantCultureIgnoreCase))
+            if ("multipart/form-data".Equals(value: headers[key: "content-type"],
+                    comparisonType: StringComparison.InvariantCultureIgnoreCase))
             {
-                MultipartFormDataContent form = new MultipartFormDataContent();
+                var form = new MultipartFormDataContent();
 
                 foreach (var parameter in parameters)
                 {
                     if (parameter.Key == "file")
                     {
-                        FileInfo fi = parameters["file"] as FileInfo;
+                        if (parameters[key: "file"] is not FileInfo fi) continue;
+                        var file = await File.ReadAllBytesAsync(path: fi.FullName);
 
-                        var file = File.ReadAllBytes(fi.FullName);
-
-                        form.Add(new ByteArrayContent(file, 0, file.Length), "file", fi.Name);
+                        form.Add(content: new ByteArrayContent(content: file, offset: 0, count: file.Length),
+                            name: "file", fileName: fi.Name);
                     }
-                    else if (parameter.Value is IEnumerable<object>)
+                    else if (parameter.Value is IEnumerable<object> value)
                     {
-                        List<object> list = new List<object>((IEnumerable<object>) parameter.Value);
-                        for (int index = 0; index < list.Count; index++)
+                        var list = new List<object>(collection: value);
+                        for (var index = 0; index < list.Count; index++)
                         {
-                            form.Add(new StringContent(list[index].ToString()), $"{parameter.Key}[{index}]");
+                            form.Add(
+                                content: new StringContent(content: list[index: index].ToString() ??
+                                                                    throw new InvalidOperationException()),
+                                name: $"{parameter.Key}[{index}]");
                         }
                     }
                     else
                     {
-                        form.Add(new StringContent(parameter.Value.ToString()), parameter.Key);
+                        form.Add(
+                            content: new StringContent(content: parameter.Value.ToString() ??
+                                                                throw new InvalidOperationException()),
+                            name: parameter.Key);
                     }
                 }
-                request.Content = form;
 
+                request.Content = form;
             }
             else if (!methodGet)
             {
                 string body = parameters.ToJson();
 
-                request.Content = new StringContent(body, Encoding.UTF8, "application/json");
+                request.Content =
+                    new StringContent(content: body, encoding: Encoding.UTF8, mediaType: "application/json");
             }
 
-            foreach (var header in this.headers)
+            foreach (var header in this._headers)
             {
-                if (header.Key.Equals("content-type", StringComparison.InvariantCultureIgnoreCase))
+                if (header.Key.Equals(value: "content-type",
+                        comparisonType: StringComparison.InvariantCultureIgnoreCase))
                 {
-                    http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(header.Value));
+                    _http.DefaultRequestHeaders.Accept.Add(
+                        item: new MediaTypeWithQualityHeaderValue(mediaType: header.Value));
                 }
                 else
                 {
-                    if (http.DefaultRequestHeaders.Contains(header.Key)) {
-                        http.DefaultRequestHeaders.Remove(header.Key);
+                    if (_http.DefaultRequestHeaders.Contains(name: header.Key))
+                    {
+                        _http.DefaultRequestHeaders.Remove(name: header.Key);
                     }
-                    http.DefaultRequestHeaders.Add(header.Key, header.Value);
+
+                    _http.DefaultRequestHeaders.Add(name: header.Key, value: header.Value);
                 }
             }
 
             foreach (var header in headers)
             {
-                if (header.Key.Equals("content-type", StringComparison.InvariantCultureIgnoreCase))
+                if (header.Key.Equals(value: "content-type",
+                        comparisonType: StringComparison.InvariantCultureIgnoreCase))
                 {
-                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(header.Value));
+                    request.Headers.Accept.Add(item: new MediaTypeWithQualityHeaderValue(mediaType: header.Value));
                 }
                 else
                 {
-                    if (request.Headers.Contains(header.Key)) {
-                        request.Headers.Remove(header.Key);
+                    if (request.Headers.Contains(name: header.Key))
+                    {
+                        request.Headers.Remove(name: header.Key);
                     }
-                    request.Headers.Add(header.Key, header.Value);
+
+                    request.Headers.Add(name: header.Key, value: header.Value);
                 }
             }
+
             try
             {
-                var httpResponseMessage = await http.SendAsync(request);
-                var code = (int) httpResponseMessage.StatusCode;
+                var httpResponseMessage = await _http.SendAsync(request: request);
+                var code = (int)httpResponseMessage.StatusCode;
                 var response = await httpResponseMessage.Content.ReadAsStringAsync();
 
-                if (code >= 400) {
-                    var message = response.ToString();
-                    var isJson = httpResponseMessage.Content.Headers.GetValues("Content-Type").FirstOrDefault().Contains("application/json");
+                if (code < 400) return httpResponseMessage;
+                var message = response;
+                var isJson =
+                    httpResponseMessage.Content.Headers.GetValues(name: "Content-Type").FirstOrDefault()!.Contains(
+                        value: "application/json");
 
-                    if (isJson) {
-                        message = (JObject.Parse(message))["message"].ToString();
-                    }
-
-                    throw new AppwriteException(message, code, response.ToString());
-                }
-
-                return httpResponseMessage;
+                if (!isJson) throw new AppwriteException(message: message, code: code, response: response);
+                message = (JObject.Parse(json: message))[propertyName: "message"]?.ToString();
+                throw new AppwriteException(message: message, code: code, response: response);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                throw new AppwriteException(e.Message, e);
+                throw new AppwriteException(message: e.Message, inner: e);
             }
-
         }
     }
 }

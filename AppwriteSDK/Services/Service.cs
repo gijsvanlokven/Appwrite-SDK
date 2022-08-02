@@ -1,3 +1,5 @@
+using AppwriteSDK;
+
 namespace Appwrite
 {
     public abstract class Service

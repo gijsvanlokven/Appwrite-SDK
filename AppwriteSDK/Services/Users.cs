@@ -1,14 +1,16 @@
-
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AppwriteSDK;
+using AppwriteSDK.Models;
 
 namespace Appwrite
 {
     public class Users : Service
     {
-        public Users(Client client) : base(client) { }
+        public Users(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// List Users
@@ -17,7 +19,8 @@ namespace Appwrite
         /// filter your results.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) 
+        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
+            OrderType orderType = OrderType.Asc)
         {
             string path = "/users";
 
@@ -43,7 +46,7 @@ namespace Appwrite
         /// Create a new user.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string email, string password, string name = "") 
+        public async Task<HttpResponseMessage> Create(string email, string password, string name = "")
         {
             string path = "/users";
 
@@ -68,7 +71,7 @@ namespace Appwrite
         /// Get a user by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string userId) 
+        public async Task<HttpResponseMessage> Get(string userId)
         {
             string path = "/users/{userId}".Replace("{userId}", userId);
 
@@ -90,7 +93,7 @@ namespace Appwrite
         /// Delete a user by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string userId) 
+        public async Task<HttpResponseMessage> Delete(string userId)
         {
             string path = "/users/{userId}".Replace("{userId}", userId);
 
@@ -112,7 +115,7 @@ namespace Appwrite
         /// Get a user activity logs list by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetLogs(string userId) 
+        public async Task<HttpResponseMessage> GetLogs(string userId)
         {
             string path = "/users/{userId}/logs".Replace("{userId}", userId);
 
@@ -134,7 +137,7 @@ namespace Appwrite
         /// Get the user preferences by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetPrefs(string userId) 
+        public async Task<HttpResponseMessage> GetPrefs(string userId)
         {
             string path = "/users/{userId}/prefs".Replace("{userId}", userId);
 
@@ -157,7 +160,7 @@ namespace Appwrite
         /// specific settings you wish to update.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdatePrefs(string userId, object prefs) 
+        public async Task<HttpResponseMessage> UpdatePrefs(string userId, object prefs)
         {
             string path = "/users/{userId}/prefs".Replace("{userId}", userId);
 
@@ -180,7 +183,7 @@ namespace Appwrite
         /// Get the user sessions list by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetSessions(string userId) 
+        public async Task<HttpResponseMessage> GetSessions(string userId)
         {
             string path = "/users/{userId}/sessions".Replace("{userId}", userId);
 
@@ -202,7 +205,7 @@ namespace Appwrite
         /// Delete all user's sessions by using the user's unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteSessions(string userId) 
+        public async Task<HttpResponseMessage> DeleteSessions(string userId)
         {
             string path = "/users/{userId}/sessions".Replace("{userId}", userId);
 
@@ -224,9 +227,10 @@ namespace Appwrite
         /// Delete a user sessions by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteSession(string userId, string sessionId) 
+        public async Task<HttpResponseMessage> DeleteSession(string userId, string sessionId)
         {
-            string path = "/users/{userId}/sessions/{sessionId}".Replace("{userId}", userId).Replace("{sessionId}", sessionId);
+            string path = "/users/{userId}/sessions/{sessionId}".Replace("{userId}", userId)
+                .Replace("{sessionId}", sessionId);
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
@@ -246,7 +250,7 @@ namespace Appwrite
         /// Update the user status by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateStatus(string userId, int status) 
+        public async Task<HttpResponseMessage> UpdateStatus(string userId, int status)
         {
             string path = "/users/{userId}/status".Replace("{userId}", userId);
 
@@ -269,7 +273,7 @@ namespace Appwrite
         /// Update the user email verification status by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateVerification(string userId, bool emailVerification) 
+        public async Task<HttpResponseMessage> UpdateVerification(string userId, bool emailVerification)
         {
             string path = "/users/{userId}/verification".Replace("{userId}", userId);
 

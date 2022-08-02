@@ -1,14 +1,14 @@
-
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
+using Appwrite;
+using AppwriteSDK.Helpers;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Avatars : Service
     {
-        public Avatars(Client client) : base(client) { }
+        public Avatars(Client client) : base(client)
+        {
+        }
 
         /// <summary>
         /// Get Browser Icon
@@ -19,19 +19,17 @@ namespace Appwrite
         /// change the output settings.
         /// </para>
         /// </summary>
-        public string GetBrowser(string code, int? width = 100, int? height = 100, int? quality = 100) 
+        public string GetBrowser(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            string path = "/avatars/browsers/{code}".Replace("{code}", code);
+            var path = "/avatars/browsers/{code}".Replace("{code}", code);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "width", width },
                 { "height", height },
                 { "quality", quality },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -43,19 +41,17 @@ namespace Appwrite
         /// output settings.
         /// </para>
         /// </summary>
-        public string GetCreditCard(string code, int? width = 100, int? height = 100, int? quality = 100) 
+        public string GetCreditCard(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            string path = "/avatars/credit-cards/{code}".Replace("{code}", code);
+            var path = "/avatars/credit-cards/{code}".Replace("{code}", code);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "width", width },
                 { "height", height },
                 { "quality", quality },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -67,17 +63,15 @@ namespace Appwrite
         /// 
         /// </para>
         /// </summary>
-        public string GetFavicon(string url) 
+        public string GetFavicon(string url)
         {
-            string path = "/avatars/favicon";
+            const string path = "/avatars/favicon";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "url", url },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -89,19 +83,17 @@ namespace Appwrite
         /// height and quality arguments to change the output settings.
         /// </para>
         /// </summary>
-        public string GetFlag(string code, int? width = 100, int? height = 100, int? quality = 100) 
+        public string GetFlag(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            string path = "/avatars/flags/{code}".Replace("{code}", code);
+            var path = "/avatars/flags/{code}".Replace("{code}", code);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "width", width },
                 { "height", height },
                 { "quality", quality },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -114,19 +106,17 @@ namespace Appwrite
         /// image is properly served using a TLS protocol.
         /// </para>
         /// </summary>
-        public string GetImage(string url, int? width = 400, int? height = 400) 
+        public string GetImage(string url, int? width = 400, int? height = 400)
         {
-            string path = "/avatars/image";
+            const string path = "/avatars/image";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "url", url },
                 { "width", width },
                 { "height", height },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -145,11 +135,12 @@ namespace Appwrite
         /// the same initials.
         /// </para>
         /// </summary>
-        public string GetInitials(string name = "", int? width = 500, int? height = 500, string color = "", string background = "") 
+        public string GetInitials(string name = "", int? width = 500, int? height = 500, string color = "",
+            string background = "")
         {
-            string path = "/avatars/initials";
+            const string path = "/avatars/initials";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "name", name },
                 { "width", width },
@@ -157,9 +148,7 @@ namespace Appwrite
                 { "color", color },
                 { "background", background },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
@@ -170,20 +159,18 @@ namespace Appwrite
         /// parameters to change the size and style of the resulting image.
         /// </para>
         /// </summary>
-        public string GetQR(string text, int? size = 400, int? margin = 1, bool? download = false) 
+        public string GetQr(string text, int? size = 400, int? margin = 1, bool? download = false)
         {
-            string path = "/avatars/qr";
+            const string path = "/avatars/qr";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "text", text },
                 { "size", size },
                 { "margin", margin },
                 { "download", download },
             };
-            // { "project", _client.GetConfig().get("project") },
-            // { "key", _client.GetConfig().get("key") }
-            
+
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
     };
