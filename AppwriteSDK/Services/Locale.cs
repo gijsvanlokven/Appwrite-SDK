@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppwriteSDK;
+using Appwrite;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Locale : Service
     {
@@ -12,7 +12,7 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get User Locale
+        /// Get User Locale Async
         /// <para>
         /// Get the current user location based on IP. Returns an object with user
         /// country code, country name, continent name, continent code, ip address and
@@ -22,15 +22,13 @@ namespace Appwrite
         /// ([IP Geolocation by DB-IP](https://db-ip.com))
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> GetLocaleAsync()
         {
-            string path = "/locale";
+            const string path = "/locale";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -39,21 +37,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Continents
+        /// List Continents Async
         /// <para>
         /// List of all continents. You can use the locale header to get the data in a
         /// supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetContinents()
+        public async Task<HttpResponseMessage> GetContinentsAsync()
         {
-            string path = "/locale/continents";
+            const string path = "/locale/continents";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -62,21 +58,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Countries
+        /// List Countries Async
         /// <para>
         /// List of all countries. You can use the locale header to get the data in a
         /// supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountries()
+        public async Task<HttpResponseMessage> GetCountriesAsync()
         {
-            string path = "/locale/countries";
+            const string path = "/locale/countries";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -85,21 +79,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List EU Countries
+        /// List EU Countries Async
         /// <para>
         /// List of all countries that are currently members of the EU. You can use the
         /// locale header to get the data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountriesEU()
+        public async Task<HttpResponseMessage> GetCountriesEuAsync()
         {
-            string path = "/locale/countries/eu";
+            const string path = "/locale/countries/eu";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -108,21 +100,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Countries Phone Codes
+        /// List Countries Phone Codes Async
         /// <para>
         /// List of all countries phone codes. You can use the locale header to get the
         /// data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCountriesPhones()
+        public async Task<HttpResponseMessage> GetCountriesPhonesAsync()
         {
-            string path = "/locale/countries/phones";
+            const string path = "/locale/countries/phones";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -131,22 +121,20 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Currencies
+        /// List Currencies Async
         /// <para>
         /// List of all currencies, including currency symbol, name, plural, and
         /// decimal digits for all major and minor currencies. You can use the locale
         /// header to get the data in a supported language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCurrencies()
+        public async Task<HttpResponseMessage> GetCurrenciesAsync()
         {
-            string path = "/locale/currencies";
+            const string path = "/locale/currencies";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -155,21 +143,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Languages
+        /// List Languages Async
         /// <para>
         /// List of all languages classified by ISO 639-1 including 2-letter code, name
         /// in English, and name in the respective language.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetLanguages()
+        public async Task<HttpResponseMessage> GetLanguagesAsync()
         {
-            string path = "/locale/languages";
+            const string path = "/locale/languages";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };

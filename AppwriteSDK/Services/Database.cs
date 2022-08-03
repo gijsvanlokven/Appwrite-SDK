@@ -8,8 +8,10 @@ namespace AppwriteSDK.Services
 {
     public class Database : Service
     {
-        public Database(Client client) : base(client)
+        private readonly string _databaseId;
+        public Database(Client client, string databaseId) : base(client)
         {
+            _databaseId = databaseId;
         }
 
         /// <summary>
@@ -55,16 +57,15 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Create a new Database
         /// </para>
-        /// <param name="databaseId"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateDatabaseAsync(string databaseId, string name)
+        public async Task<HttpResponseMessage> CreateDatabaseAsync(string name)
         {
             const string path = "/databases";
 
             var parameters = new Dictionary<string, object>()
             {
-                { "databaseId", databaseId },
+                { "databaseId", _databaseId },
                 { "name", name }
             };
 
@@ -77,11 +78,11 @@ namespace AppwriteSDK.Services
         }
 
         /// <summary>
-        /// Get usage stats for the database async
+        /// Get usage stats for the databases async
         /// </summary>
         /// <param name="range"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> GetDatabaseUsageAsync(string range = "")
+        public async Task<HttpResponseMessage> GetDatabasesUsageAsync(string range = "")
         {
             const string path = "/databases/usage";
 
@@ -105,11 +106,10 @@ namespace AppwriteSDK.Services
         /// Get a database by its unique ID. This endpoint response returns
         /// a JSON object with the database metadata.
         /// </para>
-        /// <param name="databaseId"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> GetDatabaseAsync(string databaseId)
+        public async Task<HttpResponseMessage> GetDatabaseAsync()
         {
-            var path = $"/databases/{databaseId}";
+            var path = $"/databases/{_databaseId}";
 
             var parameters = new Dictionary<string, object>();
 
@@ -127,12 +127,11 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Update a database by its unique ID.
         /// </para>
-        /// <param name="databaseId"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> UpdateDatabaseAsync(string databaseId, string name)
+        public async Task<HttpResponseMessage> UpdateDatabaseAsync(string name)
         {
-            var path = $"/databases/{databaseId}";
+            var path = $"/databases/{_databaseId}";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -154,11 +153,10 @@ namespace AppwriteSDK.Services
         /// Delete a database by its unique ID.
         /// Only API keys with with databases.write scope can delete a database.
         /// </para>
-        /// <param name="databaseId"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> DeleteDatabaseAsync(string databaseId)
+        public async Task<HttpResponseMessage> DeleteDatabaseAsync()
         {
-            var path = $"/databases/{databaseId}";
+            var path = $"/databases/{_databaseId}";
 
             var parameters = new Dictionary<string, object>();
 
@@ -179,11 +177,11 @@ namespace AppwriteSDK.Services
         /// modes](/docs/admin).
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListCollectionsAsync(string databaseId, string search = "",
+        public async Task<HttpResponseMessage> ListCollectionsAsync(string search = "",
             int? limit = 25, int? offset = 0, string cursor = "", string cursorDirection = "",
             OrderType orderType = OrderType.Asc)
         {
-            var path = $"/databases/{databaseId}/collections";
+            var path = $"/databases/{_databaseId}/collections";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -209,10 +207,10 @@ namespace AppwriteSDK.Services
         /// Create a new Collection.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateCollectionAsync(string databaseId, string collectionId,
+        public async Task<HttpResponseMessage> CreateCollectionAsync(string collectionId,
             string name, string permission, List<object> read, List<object> write)
         {
-            var path = $"/databases/{databaseId}/collections";
+            var path = $"/databases/{_databaseId}/collections";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -238,9 +236,9 @@ namespace AppwriteSDK.Services
         /// object with the collection metadata.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCollectionAsync(string databaseId, string collectionId)
+        public async Task<HttpResponseMessage> GetCollectionAsync(string collectionId)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}";
 
             var parameters = new Dictionary<string, object>();
 
@@ -258,10 +256,10 @@ namespace AppwriteSDK.Services
         /// Update a collection by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateCollectionAsync(string databaseId, string collectionId,
+        public async Task<HttpResponseMessage> UpdateCollectionAsync(string collectionId,
             string name, string permission, List<object> read = null, List<object> write = null)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -286,9 +284,9 @@ namespace AppwriteSDK.Services
         /// have access to delete this resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteCollectionAsync(string databaseId, string collectionId)
+        public async Task<HttpResponseMessage> DeleteCollectionAsync(string collectionId)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}";
 
             var parameters = new Dictionary<string, object>();
 
@@ -303,12 +301,11 @@ namespace AppwriteSDK.Services
         /// <summary>
         /// List Attributes Async
         /// </summary>
-        /// <param name="databaseId"></param>
         /// <param name="collectionId"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> ListAttributes(string databaseId, string collectionId)
+        public async Task<HttpResponseMessage> ListAttributes(string collectionId)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}/attributes";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes";
 
             var parameters = new Dictionary<string, object>();
 
@@ -326,17 +323,16 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Create a boolean attribute
         /// </para>
-        /// <param name="databaseId"></param>
         /// <param name="collectionId"></param>
         /// <param name="key"></param>
         /// <param name="required"></param>
         /// <param name="default"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateBooleanAttributeAsync(string databaseId, string collectionId,
+        public async Task<HttpResponseMessage> CreateBooleanAttributeAsync(string collectionId,
             string key, bool required, bool @default = false, bool array = false)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}/attributes/boolean";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/boolean";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -360,17 +356,16 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Create an email attribute
         /// </para>
-        /// <param name="databaseId"></param>
         /// <param name="collectionId"></param>
         /// <param name="key"></param>
         /// <param name="required"></param>
         /// <param name="default"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateEmailAttributeAsync(string databaseId, string collectionId,
+        public async Task<HttpResponseMessage> CreateEmailAttributeAsync(string collectionId,
             string key, bool required, bool @default = false, bool array = false)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}/attributes/email";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/email";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -391,7 +386,6 @@ namespace AppwriteSDK.Services
         /// <summary>
         /// Create Enum Attribute Async
         /// </summary>
-        /// <param name="databaseId"></param>
         /// <param name="collectionId"></param>
         /// <param name="key"></param>
         /// <param name="elements"></param>
@@ -399,10 +393,10 @@ namespace AppwriteSDK.Services
         /// <param name="default"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateEnumAttributeAsync(string databaseId, string collectionId,
+        public async Task<HttpResponseMessage> CreateEnumAttributeAsync(string collectionId,
             string key, string[] elements, bool required, bool @default = false, bool array = false)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}/attributes/enum";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/enum";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -427,7 +421,6 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Create a float attribute. Optionally, minimum and maximum values can be provided.
         /// </para>
-        /// <param name="databaseId"></param>
         /// <param name="collectionId"></param>
         /// <param name="key"></param>
         /// <param name="required"></param>
@@ -436,10 +429,10 @@ namespace AppwriteSDK.Services
         /// <param name="default"></param>
         /// <param name="array"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateFloatAttributeAsync(string databaseId, string collectionId,
-            string key, bool required, float min = 0f, float max = 0f, bool @default = false, bool array = false)
+        public async Task<HttpResponseMessage> CreateFloatAttributeAsync(string collectionId,
+            string key, bool required, float? min = null, float? max = null, bool @default = false, bool array = false)
         {
-            var path = $"/databases/{databaseId}/collections/{collectionId}/attributes/float";
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/float";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -458,34 +451,210 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("POST", path, headers, parameters);
         }
-
+        
         /// <summary>
-        /// List Documents
-        /// <para>
-        /// Get a list of all the user documents. You can use the query params to
-        /// filter your results. On admin mode, this endpoint will return a list of all
-        /// of the project's documents. [Learn more about different API
-        /// modes](/docs/admin).
-        /// </para>
+        /// Create Integer Attribute Async
         /// </summary>
-        public async Task<HttpResponseMessage> ListDocuments(string collectionId, List<object> filters = null,
-            int? limit = 25, int? offset = 0, string orderField = "", OrderType orderType = OrderType.Asc,
-            string orderCast = "string", string search = "")
+        /// <para>
+        /// Create an integer attribute. Optionally, minimum and maximum values can be provided.
+        /// </para>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <param name="required"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="default"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateIntegerAttributeAsync(string collectionId,
+            string key, bool required, int? min = null, int? max = null, bool @default = false, bool array = false)
         {
-            string path = "/database/collections/{collectionId}/documents".Replace("{collectionId}", collectionId);
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/integer";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
-                { "filters", filters },
-                { "limit", limit },
-                { "offset", offset },
-                { "orderField", orderField },
-                { "orderType", orderType.ToString() },
-                { "orderCast", orderCast },
-                { "search", search }
+                { "key", key },
+                { "required", required },
+                { "min", min },
+                { "max", max },
+                { "default", @default },
+                { "array", array }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("POST", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Create IP Attribute Async
+        /// </summary>
+        /// <para>
+        /// Create IP address attribute.
+        /// </para>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <param name="required"></param>
+        /// <param name="default"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateIpAttributeAsync(string collectionId,
+            string key, bool required, bool @default = false, bool array = false)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/ip";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "key", key },
+                { "required", required },
+                { "default", @default },
+                { "array", array }
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("POST", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Create String Attribute Async
+        /// </summary>
+        /// <para>
+        /// Create a string attribute.
+        /// </para>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <param name="required"></param>
+        /// <param name="default"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateStringAttributeAsync(string collectionId,
+            string key, bool required, bool @default = false, bool array = false)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/string";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "key", key },
+                { "required", required },
+                { "default", @default },
+                { "array", array }
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("POST", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Create URL Attribute Async
+        /// </summary>
+        /// <para>
+        /// Create a URL attribute.
+        /// </para>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <param name="required"></param>
+        /// <param name="default"></param>
+        /// <param name="array"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateUrlAttributeAsync(string collectionId,
+            string key, bool required, bool @default = false, bool array = false)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/url";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "key", key },
+                { "required", required },
+                { "default", @default },
+                { "array", array }
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("POST", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Get Attribute Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetAttributeAsync(string collectionId, string key)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/{key}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Delete Attribute Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteAttributeAsync(string collectionId, string key)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/attributes/{key}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("DELETE", path, headers, parameters);
+        }
+        
+        
+        
+        /// <summary>
+        /// List Documents Async
+        /// <para>
+        /// Get a list of all the user's documents in a given collection.
+        /// You can use the query params to filter your results. On admin mode,
+        /// this endpoint will return a list of all of documents belonging to
+        /// the provided collectionId. Learn more about different API modes.
+        /// </para>
+        /// </summary>
+        public async Task<HttpResponseMessage> ListDocumentsAsync(string collectionId, List<object> queries = null , int? limit = null, int? offset = null, string cursor = "", string cursorDirection = "", List<object> orderAttributes = null, List<object> orderTypes = null)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "queries", queries },
+                { "limit", limit },
+                { "offset", offset },
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
+                { "orderAttributes", orderAttributes },
+                { "orderTypes", orderTypes }
+            };
+
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -494,28 +663,24 @@ namespace AppwriteSDK.Services
         }
 
         /// <summary>
-        /// Create Document
+        /// Create Document Async
         /// <para>
-        /// Create a new Document. Before using this route, you should create a new
-        /// collection resource using either a [server
-        /// integration](/docs/server/database#databaseCreateCollection) API or
-        /// directly from your database console.
+        /// Create a new Document. Before using this route,
+        /// you should create a new collection resource using
+        /// either a server integration API or directly from your database console.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateDocument(string collectionId, object data,
-            List<object> read = null, List<object> write = null, string parentDocument = "", string parentProperty = "",
-            string parentPropertyType = "assign")
+        public async Task<HttpResponseMessage> CreateDocumentAsync(string collectionId, string documentId, object data,
+            List<object> read = null, List<object> write = null)
         {
-            string path = "/database/collections/{collectionId}/documents".Replace("{collectionId}", collectionId);
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents";
 
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
+                {"documentId", documentId},
                 { "data", data },
                 { "read", read },
-                { "write", write },
-                { "parentDocument", parentDocument },
-                { "parentProperty", parentProperty },
-                { "parentPropertyType", parentPropertyType }
+                { "write", write }
             };
 
             Dictionary<string, string> headers = new Dictionary<string, string>()
@@ -527,22 +692,19 @@ namespace AppwriteSDK.Services
         }
 
         /// <summary>
-        /// Get Document
+        /// Get Document Async
         /// <para>
-        /// Get a document by its unique ID. This endpoint response returns a JSON
-        /// object with the document data.
+        /// Get a document by its unique ID. This endpoint response returns
+        /// a JSON object with the document data.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetDocument(string collectionId, string documentId)
+        public async Task<HttpResponseMessage> GetDocumentAsync(string collectionId, string documentId)
         {
-            string path = "/database/collections/{collectionId}/documents/{documentId}"
-                .Replace("{collectionId}", collectionId).Replace("{documentId}", documentId);
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents/{documentId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -551,26 +713,25 @@ namespace AppwriteSDK.Services
         }
 
         /// <summary>
-        /// Update Document
+        /// Update Document Async
         /// <para>
-        /// Update a document by its unique ID. Using the patch method you can pass
-        /// only specific fields that will get updated.
+        /// Update a document by its unique ID. Using the patch method
+        /// you can pass only specific fields that will get updated.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateDocument(string collectionId, string documentId, object data,
+        public async Task<HttpResponseMessage> UpdateDocumentAsync(string collectionId, string documentId, object data,
             List<object> read = null, List<object> write = null)
         {
-            string path = "/database/collections/{collectionId}/documents/{documentId}"
-                .Replace("{collectionId}", collectionId).Replace("{documentId}", documentId);
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents/{documentId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "data", data },
                 { "read", read },
                 { "write", write }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -579,28 +740,209 @@ namespace AppwriteSDK.Services
         }
 
         /// <summary>
-        /// Delete Document
+        /// Delete Document Async
         /// <para>
-        /// Delete a document by its unique ID. This endpoint deletes only the parent
-        /// documents, its attributes and relations to other documents. Child documents
-        /// **will not** be deleted.
+        /// Delete a document by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteDocument(string collectionId, string documentId)
+        public async Task<HttpResponseMessage> DeleteDocumentAsync(string collectionId, string documentId)
         {
-            string path = "/database/collections/{collectionId}/documents/{documentId}"
-                .Replace("{collectionId}", collectionId).Replace("{documentId}", documentId);
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents/{documentId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
+
+        /// <summary>
+        /// Get Document Logs Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="documentId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetDocumentLogsAsync(string collectionId, string documentId)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/documents/{documentId}/usage";
+
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// List Indexes Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListIndexesAsync(string collectionId)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Create Index Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <param name="type"></param>
+        /// <param name="attributes"></param>
+        /// <param name="orders"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateIndexAsync(string collectionId, string key, string type,
+            List<object> attributes, List<object> orders = null)
+
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                {"key", key},
+                {"type", type},
+                {"attributes", attributes},
+                {"orders", orders}
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("POST", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Get Index Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetIndexAsync(string collectionId, string key)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes/{key}";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Delete Index Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteIndexAsync(string collectionId, string key)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes/{key}";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("DELETE", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Get Collection Log Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetCollectionLogsAsync(string collectionId)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/logs";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Get Collection Usage Async
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetCollectionUsageAsync(string collectionId)
+        {
+            var path = $"/databases/{_databaseId}/collections/{collectionId}/usage";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// List Collection Logs Async
+        /// </summary>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListCollectionLogsAsync()
+        {
+            var path = $"/databases/{_databaseId}/logs";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Get Database Usage Async
+        /// </summary>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetDatabaseUsageAsync()
+        {
+            var path = $"/databases/{_databaseId}/usage";
+            
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        
     };
 }
