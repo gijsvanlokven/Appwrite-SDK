@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppwriteSDK;
+using Appwrite;
 using AppwriteSDK.Models;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Users : Service
     {
@@ -13,26 +13,35 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Users
+        /// List Users Async
         /// <para>
         /// Get a list of all the project's users. You can use the query params to
         /// filter your results.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
-            OrderType orderType = OrderType.Asc)
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListAsync(string search = "", int? limit = 25, int? offset = 0,
+            string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
         {
-            string path = "/users";
+            const string path = "/users";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -41,23 +50,29 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Create User
+        /// Create User Async
         /// <para>
         /// Create a new user.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string email, string password, string name = "")
+        /// <param name="userId"></param>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateAsync(string userId, string email, string password, string name = "")
         {
-            string path = "/users";
+            const string path = "/users";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
+                {"userId", userId},
                 { "email", email },
                 { "password", password },
                 { "name", name }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -65,21 +80,21 @@ namespace Appwrite
             return await _client.Call("POST", path, headers, parameters);
         }
 
+        
         /// <summary>
-        /// Get User
+        /// Get Users Usage Async
         /// <para>
-        /// Get a user by its unique ID.
+        /// Get usage stats for the users API
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string userId)
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetUsageAsync()
         {
-            string path = "/users/{userId}".Replace("{userId}", userId);
+            const string path = "/users/usage";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -88,64 +103,212 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete User
+        /// Get User Async
+        /// <para>
+        /// Get a user by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetAsync(string userId)
+        {
+            var path = $"/users/{userId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Delete User Async
         /// <para>
         /// Delete a user by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string userId)
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteAsync(string userId)
         {
-            string path = "/users/{userId}".Replace("{userId}", userId);
+            var path = $"/users/{userId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
+        
+        /// <summary>
+        /// Update Email Async
+        /// <para>
+        /// Update the user email by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateEmailAsync(string userId, string email)
+        {
+            var path = $"/users/{userId}/email";
+            
+            var parameters = new Dictionary<string, object>()
+            {
+                {"email", email}
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("PATCH", path, headers, parameters);
+        }
 
         /// <summary>
-        /// Get User Logs
+        /// Get User Logs Async
         /// <para>
         /// Get a user activity logs list by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetLogs(string userId)
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetLogsAsync(string userId)
         {
-            string path = "/users/{userId}/logs".Replace("{userId}", userId);
+            var path = $"/users/{userId}/logs";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("GET", path, headers, parameters);
         }
+        
+        /// <summary>
+        /// Get User Memberships Async
+        /// <para>
+        /// Get the user membership list by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetMembershipsAsync(string userId)
+        {
+            var path = $"/users/{userId}/memberships";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Update Name Async
+        /// <para>
+        /// Update the user name by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateNameAsync(string userId, string name)
+        {
+            var path = $"/users/{userId}/name";
+            
+            var parameters = new Dictionary<string, object>()
+            {
+                {"name", name}
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("PATCH", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Update Password Async
+        /// <para>
+        /// Update the user password by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdatePasswordAsync(string userId, string password)
+        {
+            var path = $"/users/{userId}/password";
+            
+            var parameters = new Dictionary<string, object>()
+            {
+                {"password", password}
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("PATCH", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Update Phone Async
+        /// <para>
+        /// Update the user phone by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdatePhoneAsync(string userId, string number)
+        {
+            var path = $"/users/{userId}/phone";
+            
+            var parameters = new Dictionary<string, object>()
+            {
+                {"number", number}
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("PATCH", path, headers, parameters);
+        }
 
         /// <summary>
-        /// Get User Preferences
+        /// Get User Preferences Async
         /// <para>
         /// Get the user preferences by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetPrefs(string userId)
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetPrefsAsync(string userId)
         {
-            string path = "/users/{userId}/prefs".Replace("{userId}", userId);
+            var path = $"/users/{userId}/prefs";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -154,22 +317,25 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update User Preferences
+        /// Update User Preferences Async
         /// <para>
         /// Update the user preferences by its unique ID. You can pass only the
         /// specific settings you wish to update.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdatePrefs(string userId, object prefs)
+        /// <param name="userId"></param>
+        /// <param name="prefs"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdatePrefsAsync(string userId, object prefs)
         {
-            string path = "/users/{userId}/prefs".Replace("{userId}", userId);
+            var path = $"/users/{userId}/prefs";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "prefs", prefs }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -178,20 +344,20 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get User Sessions
+        /// Get User Sessions Async
         /// <para>
         /// Get the user sessions list by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetSessions(string userId)
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetSessionsAsync(string userId)
         {
-            string path = "/users/{userId}/sessions".Replace("{userId}", userId);
+            var path = $"/users/{userId}/sessions";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -200,20 +366,43 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete User Sessions
+        /// Delete User Sessions Async
         /// <para>
         /// Delete all user's sessions by using the user's unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteSessions(string userId)
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteSessionsAsync(string userId)
         {
-            string path = "/users/{userId}/sessions".Replace("{userId}", userId);
+            var path = $"/users/{userId}/sessions";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
             {
+                { "content-type", "application/json" }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            return await _client.Call("DELETE", path, headers, parameters);
+        }
+
+       /// <summary>
+       /// Delete User Session Async
+       /// <para>
+       /// Delete a user sessions by its unique ID.
+       /// </para>
+       /// </summary>
+       /// <param name="userId"></param>
+       /// <param name="sessionId"></param>
+       /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteSessionAsync(string userId, string sessionId)
+        {
+            var path = $"/users/{userId}/sessions/{sessionId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -222,44 +411,24 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete User Session
-        /// <para>
-        /// Delete a user sessions by its unique ID.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> DeleteSession(string userId, string sessionId)
-        {
-            string path = "/users/{userId}/sessions/{sessionId}".Replace("{userId}", userId)
-                .Replace("{sessionId}", sessionId);
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("DELETE", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Update User Status
+        /// Update User Status Async
         /// <para>
         /// Update the user status by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateStatus(string userId, int status)
+        /// <param name="userId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateStatusAsync(string userId, bool status)
         {
-            string path = "/users/{userId}/status".Replace("{userId}", userId);
+            var path = $"/users/{userId}/status";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "status", status }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -268,21 +437,50 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update Email Verification
+        /// Update Email Verification Async
         /// <para>
         /// Update the user email verification status by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateVerification(string userId, bool emailVerification)
+        /// <param name="userId"></param>
+        /// <param name="emailVerification"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateVerificationAsync(string userId, bool emailVerification)
         {
-            string path = "/users/{userId}/verification".Replace("{userId}", userId);
+            var path = $"/users/{userId}/verification";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "emailVerification", emailVerification }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("PATCH", path, headers, parameters);
+        }
+        
+        /// <summary>
+        /// Update Phone Verification Async
+        /// <para>
+        /// Update the user phone verification status by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="phoneVerification"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdatePhoneVerificationAsync(string userId, bool phoneVerification)
+        {
+            var path = $"/users/{userId}/verification/phone";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "phoneVerification", phoneVerification }
+            };
+
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
