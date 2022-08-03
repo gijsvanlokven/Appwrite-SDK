@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppwriteSDK;
+using Appwrite;
 using AppwriteSDK.Models;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Functions : Service
     {
@@ -14,26 +14,35 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Functions
+        /// List Functions Async
         /// <para>
         /// Get a list of all the project's functions. You can use the query params to
         /// filter your results.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
-            OrderType orderType = OrderType.Asc)
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListAsync(string search = "", int? limit = 25, int? offset = 0,
+            string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
         {
-            string path = "/functions";
+            const string path = "/functions";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
+                {"cursor", cursor},
+                {"cursorDirection", cursorDirection},
                 { "orderType", orderType.ToString() }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -42,20 +51,30 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Create Function
+        /// Create Function Async
         /// <para>
         /// Create a new function. You can pass a list of
         /// [permissions](/docs/permissions) to allow different project users or team
         /// with access to execute the function using the client API.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string name, List<object> execute, string runtime,
+        /// <param name="functionId"></param>
+        /// <param name="name"></param>
+        /// <param name="execute"></param>
+        /// <param name="runtime"></param>
+        /// <param name="vars"></param>
+        /// <param name="events"></param>
+        /// <param name="schedule"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateAsync(string functionId, string name, List<object> execute, string runtime,
             object vars = null, List<object> events = null, string schedule = "", int? timeout = 15)
         {
-            string path = "/functions";
+            const string path = "/functions";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
+                {"functionId", functionId},
                 { "name", name },
                 { "execute", execute },
                 { "runtime", runtime },
@@ -65,7 +84,7 @@ namespace Appwrite
                 { "timeout", timeout }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -74,20 +93,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Function
+        /// List Runtimes Async
         /// <para>
-        /// Get a function by its unique ID.
+        /// Get a list of all runtimes that are currently active on your instance.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string functionId)
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListRuntimesAsync()
         {
-            string path = "/functions/{functionId}".Replace("{functionId}", functionId);
+            const string path = "/functions/runtimes";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -96,17 +114,47 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update Function
+        /// Get Function Async
+        /// <para>
+        /// Get a function by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetAsync(string functionId)
+        {
+            var path = $"/functions/{functionId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Update Function Async
         /// <para>
         /// Update function by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Update(string functionId, string name, List<object> execute,
+        /// <param name="functionId"></param>
+        /// <param name="name"></param>
+        /// <param name="execute"></param>
+        /// <param name="vars"></param>
+        /// <param name="events"></param>
+        /// <param name="schedule"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateAsync(string functionId, string name, List<object> execute,
             object vars = null, List<object> events = null, string schedule = "", int? timeout = 15)
         {
-            string path = "/functions/{functionId}".Replace("{functionId}", functionId);
+            var path = $"/functions/{functionId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "name", name },
                 { "execute", execute },
@@ -116,7 +164,7 @@ namespace Appwrite
                 { "timeout", timeout }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -125,25 +173,56 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete Function
+        /// Delete Function Async
         /// <para>
         /// Delete a function by its unique ID.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string functionId)
+        /// <param name="functionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteAsync(string functionId)
         {
-            string path = "/functions/{functionId}".Replace("{functionId}", functionId);
+            var path = $"/functions/{functionId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("DELETE", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// List Deployments Async
+        /// <para>
+        /// Get a list of all the project's code deployments.
+        /// You can use the query params to filter your results.
+        /// </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListDeploymentsAsync(string functionId, string search = "", 
+            int? limit = 25, int? offset = 0, string cursor = "", string cursorDirection = "", 
+            OrderType orderType = OrderType.Asc)
+        {
+            var path = $"/functions/{functionId}/deployments";
+            
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
