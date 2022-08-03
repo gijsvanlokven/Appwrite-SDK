@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Appwrite;
 using AppwriteSDK.Helpers;
 using AppwriteSDK.Models;
 
@@ -48,7 +47,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("POST", path, headers, parameters);
+            return await Client.Call("POST", path, headers, parameters);
         }
 
         /// <summary>
@@ -116,7 +115,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -160,7 +159,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PUT", path, headers, parameters);
+            return await Client.Call("PUT", path, headers, parameters);
         }
 
         /// <summary>
@@ -182,7 +181,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -221,7 +220,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -256,7 +255,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "multipart/form-data" }
             };
 
-            return await _client.Call("POST", path, headers, parameters);
+            return await Client.Call("POST", path, headers, parameters);
         }
 
         /// <summary>
@@ -280,7 +279,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -311,7 +310,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PUT", path, headers, parameters);
+            return await Client.Call("PUT", path, headers, parameters);
         }
 
         /// <summary>
@@ -335,7 +334,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -355,7 +354,7 @@ namespace AppwriteSDK.Services
 
             var parameters = new Dictionary<string, object>();
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -403,7 +402,7 @@ namespace AppwriteSDK.Services
                 { "output", output }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -423,7 +422,7 @@ namespace AppwriteSDK.Services
 
             var parameters = new Dictionary<string, object>();
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -441,7 +440,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -460,7 +459,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
     };
 }

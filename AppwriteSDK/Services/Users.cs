@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Appwrite;
 using AppwriteSDK.Models;
 
 namespace AppwriteSDK.Services
@@ -46,7 +45,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -78,7 +77,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("POST", path, headers, parameters);
+            return await Client.Call("POST", path, headers, parameters);
         }
 
 
@@ -100,7 +99,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -122,7 +121,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -144,7 +143,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -192,7 +191,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -214,7 +213,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -240,7 +239,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -266,7 +265,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -292,7 +291,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -314,7 +313,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -341,7 +340,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -363,7 +362,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -385,7 +384,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -408,7 +407,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -434,7 +433,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -460,7 +459,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
 
         /// <summary>
@@ -486,7 +485,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PATCH", path, headers, parameters);
+            return await Client.Call("PATCH", path, headers, parameters);
         }
     };
 }

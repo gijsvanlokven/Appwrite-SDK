@@ -1,14 +1,12 @@
-using AppwriteSDK;
-
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public abstract class Service
     {
-        protected readonly Client _client;
+        protected readonly Client Client;
 
-        public Service(Client client)
+        protected Service(Client client)
         {
-            _client = client;
+            Client = client;
         }
     }
 }
