@@ -6,10 +6,10 @@ using AppwriteSDK.Models;
 
 namespace AppwriteSDK.Services
 {
-    public class Database : Service
+    public class Databases : Service
     {
         private readonly string _databaseId;
-        public Database(Client client, string databaseId) : base(client)
+        public Databases(Client client, string databaseId) : base(client)
         {
             _databaseId = databaseId;
         }
