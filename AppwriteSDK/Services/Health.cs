@@ -151,7 +151,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Webhooks Queue Async
         /// <para>
@@ -172,7 +172,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Local Storage Async
         /// <para>
@@ -192,7 +192,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Time Async
         /// <para>
@@ -218,6 +218,5 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
     };
 }

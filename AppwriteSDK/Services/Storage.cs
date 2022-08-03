@@ -28,20 +28,21 @@ namespace AppwriteSDK.Services
         /// <param name="cursorDirection"></param>
         /// <param name="orderType"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> ListBucketsAsync(string search = "", int limit = 25, int offset = 0, string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
+        public async Task<HttpResponseMessage> ListBucketsAsync(string search = "", int limit = 25, int offset = 0,
+            string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
         {
             const string path = "/storage/buckets";
 
             var parameters = new Dictionary<string, object>()
             {
-                {"search", search},
-                {"limit", limit},
-                {"offset", offset},
-                {"cursor", cursor},
-                {"cursorDirection", cursorDirection},
-                {"orderType", orderType.ToString()}
+                { "search", search },
+                { "limit", limit },
+                { "offset", offset },
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
+                { "orderType", orderType.ToString() }
             };
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -49,7 +50,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Create Bucket Async
         /// <para>
@@ -86,7 +87,7 @@ namespace AppwriteSDK.Services
                 { "encryption", encryption },
                 { "antivirus", antivirus }
             };
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -109,7 +110,7 @@ namespace AppwriteSDK.Services
             var path = $"/storage/buckets/{bucketId}";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -117,7 +118,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Bucket Async
         /// <para>
@@ -153,7 +154,7 @@ namespace AppwriteSDK.Services
                 { "encryption", encryption },
                 { "antivirus", antivirus }
             };
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -175,7 +176,7 @@ namespace AppwriteSDK.Services
             var path = $"/storage/buckets/{bucketId}";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -200,7 +201,7 @@ namespace AppwriteSDK.Services
         /// <param name="cursorDirection"></param>
         /// <param name="orderType"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> ListFilesAsync(string bucketId, string search = "", int? limit = 25, 
+        public async Task<HttpResponseMessage> ListFilesAsync(string bucketId, string search = "", int? limit = 25,
             int? offset = 0, string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
         {
             var path = $"/storage/buckets/{bucketId}/files";
@@ -210,8 +211,8 @@ namespace AppwriteSDK.Services
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
-                {"cursor", cursor},
-                {"cursorDirection", cursorDirection},
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
@@ -237,14 +238,14 @@ namespace AppwriteSDK.Services
         /// <param name="read"></param>
         /// <param name="write"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateFileAsync(string bucketId, string fileId, FileInfo file, 
+        public async Task<HttpResponseMessage> CreateFileAsync(string bucketId, string fileId, FileInfo file,
             List<object> read = null, List<object> write = null)
         {
             var path = $"/storage/buckets/{bucketId}/files";
 
             var parameters = new Dictionary<string, object>()
             {
-                {"fileId", fileId},
+                { "fileId", fileId },
                 { "file", file },
                 { "read", read },
                 { "write", write }
@@ -294,7 +295,8 @@ namespace AppwriteSDK.Services
         /// <param name="read"></param>
         /// <param name="write"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> UpdateFileAsync(string bucketId, string fileId, List<object> read = null, List<object> write = null)
+        public async Task<HttpResponseMessage> UpdateFileAsync(string bucketId, string fileId, List<object> read = null,
+            List<object> write = null)
         {
             var path = $"/storage/buckets/{bucketId}/files/{fileId}";
 
@@ -379,7 +381,8 @@ namespace AppwriteSDK.Services
         /// <param name="background"></param>
         /// <param name="output"></param>
         /// <returns></returns>
-        public string GetFilePreview(string bucketId, string fileId, int? width = 0, int? height = 0, string gravity = "center",
+        public string GetFilePreview(string bucketId, string fileId, int? width = 0, int? height = 0,
+            string gravity = "center",
             int? quality = 100, int? borderWidth = 0, string borderColor = "", int? borderRadius = 0, int? opacity = 0,
             int? rotation = 0, string background = "", string output = "")
         {
@@ -397,7 +400,7 @@ namespace AppwriteSDK.Services
                 { "opacity", opacity },
                 { "rotation", rotation },
                 { "background", background },
-                { "output", output },
+                { "output", output }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -430,9 +433,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetStorageUsageStatsAsync()
         {
             const string path = "/storage/usage";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -440,7 +443,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Bucket Usage Stats Async
         /// </summary>
@@ -449,9 +452,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetBucketUsageStatsAsync(string bucketId)
         {
             var path = $"/storage/{bucketId}/usage";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }

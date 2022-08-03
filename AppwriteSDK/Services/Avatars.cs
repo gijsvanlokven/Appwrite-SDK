@@ -27,7 +27,7 @@ namespace AppwriteSDK.Services
             {
                 { "width", width },
                 { "height", height },
-                { "quality", quality },
+                { "quality", quality }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -49,7 +49,7 @@ namespace AppwriteSDK.Services
             {
                 { "width", width },
                 { "height", height },
-                { "quality", quality },
+                { "quality", quality }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -69,7 +69,7 @@ namespace AppwriteSDK.Services
 
             var parameters = new Dictionary<string, object>()
             {
-                { "url", url },
+                { "url", url }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -91,7 +91,7 @@ namespace AppwriteSDK.Services
             {
                 { "width", width },
                 { "height", height },
-                { "quality", quality },
+                { "quality", quality }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -114,7 +114,7 @@ namespace AppwriteSDK.Services
             {
                 { "url", url },
                 { "width", width },
-                { "height", height },
+                { "height", height }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -146,7 +146,7 @@ namespace AppwriteSDK.Services
                 { "width", width },
                 { "height", height },
                 { "color", color },
-                { "background", background },
+                { "background", background }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
@@ -168,7 +168,7 @@ namespace AppwriteSDK.Services
                 { "text", text },
                 { "size", size },
                 { "margin", margin },
-                { "download", download },
+                { "download", download }
             };
 
             return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();

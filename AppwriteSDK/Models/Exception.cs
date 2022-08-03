@@ -10,8 +10,8 @@ namespace AppwriteSDK.Models
         public AppwriteException(string message = null, int? code = null, string response = null)
             : base(message)
         {
-            this._code = code;
-            this._response = response;
+            _code = code;
+            _response = response;
         }
 
         public AppwriteException(string message, Exception inner)

@@ -9,6 +9,7 @@ namespace AppwriteSDK.Services
     public class Databases : Service
     {
         private readonly string _databaseId;
+
         public Databases(Client client, string databaseId) : base(client)
         {
             _databaseId = databaseId;
@@ -266,7 +267,7 @@ namespace AppwriteSDK.Services
                 { "name", name },
                 { "permission", permission },
                 { "read", read },
-                { "write", write },
+                { "write", write }
             };
 
             var headers = new Dictionary<string, string>()
@@ -451,7 +452,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("POST", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Create Integer Attribute Async
         /// </summary>
@@ -488,7 +489,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("POST", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Create IP Attribute Async
         /// </summary>
@@ -521,7 +522,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("POST", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Create String Attribute Async
         /// </summary>
@@ -607,7 +608,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Delete Attribute Async
         /// </summary>
@@ -627,9 +628,8 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
-        
-        
-        
+
+
         /// <summary>
         /// List Documents Async
         /// <para>
@@ -639,7 +639,9 @@ namespace AppwriteSDK.Services
         /// the provided collectionId. Learn more about different API modes.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListDocumentsAsync(string collectionId, List<object> queries = null , int? limit = null, int? offset = null, string cursor = "", string cursorDirection = "", List<object> orderAttributes = null, List<object> orderTypes = null)
+        public async Task<HttpResponseMessage> ListDocumentsAsync(string collectionId, List<object> queries = null,
+            int? limit = null, int? offset = null, string cursor = "", string cursorDirection = "",
+            List<object> orderAttributes = null, List<object> orderTypes = null)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/documents";
 
@@ -675,15 +677,15 @@ namespace AppwriteSDK.Services
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/documents";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
-                {"documentId", documentId},
+                { "documentId", documentId },
                 { "data", data },
                 { "read", read },
                 { "write", write }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -770,7 +772,7 @@ namespace AppwriteSDK.Services
             var path = $"/databases/{_databaseId}/collections/{collectionId}/documents/{documentId}/usage";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -778,7 +780,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// List Indexes Async
         /// </summary>
@@ -787,9 +789,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> ListIndexesAsync(string collectionId)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -815,10 +817,10 @@ namespace AppwriteSDK.Services
 
             var parameters = new Dictionary<string, object>()
             {
-                {"key", key},
-                {"type", type},
-                {"attributes", attributes},
-                {"orders", orders}
+                { "key", key },
+                { "type", type },
+                { "attributes", attributes },
+                { "orders", orders }
             };
 
             var headers = new Dictionary<string, string>()
@@ -828,7 +830,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("POST", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Index Async
         /// </summary>
@@ -838,9 +840,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetIndexAsync(string collectionId, string key)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes/{key}";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -848,7 +850,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Delete Index Async
         /// </summary>
@@ -858,9 +860,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> DeleteIndexAsync(string collectionId, string key)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/indexes/{key}";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -868,7 +870,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Collection Log Async
         /// </summary>
@@ -877,9 +879,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetCollectionLogsAsync(string collectionId)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/logs";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -887,7 +889,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Collection Usage Async
         /// </summary>
@@ -896,9 +898,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetCollectionUsageAsync(string collectionId)
         {
             var path = $"/databases/{_databaseId}/collections/{collectionId}/usage";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -906,7 +908,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// List Collection Logs Async
         /// </summary>
@@ -914,9 +916,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> ListCollectionLogsAsync()
         {
             var path = $"/databases/{_databaseId}/logs";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -924,7 +926,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Database Usage Async
         /// </summary>
@@ -932,9 +934,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetDatabaseUsageAsync()
         {
             var path = $"/databases/{_databaseId}/usage";
-            
+
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -942,7 +944,5 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-
-        
     };
 }

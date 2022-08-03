@@ -8,7 +8,7 @@ namespace Appwrite
 
         public Service(Client client)
         {
-            this._client = client;
+            _client = client;
         }
     }
 }

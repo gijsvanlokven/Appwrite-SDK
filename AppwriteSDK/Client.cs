@@ -27,27 +27,27 @@ namespace AppwriteSDK
 
         private Client(string endPoint, bool selfSigned, HttpClient http)
         {
-            this._endPoint = endPoint;
-            this._selfSigned = selfSigned;
-            this._headers = new Dictionary<string, string>()
+            _endPoint = endPoint;
+            _selfSigned = selfSigned;
+            _headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" },
                 { "x-sdk-version", "appwrite:dotnet:0.3.0" },
                 { "X-Appwrite-Response-Format", "0.9.0" }
             };
-            this._config = new Dictionary<string, string>();
-            this._http = http;
+            _config = new Dictionary<string, string>();
+            _http = http;
         }
 
         public Client SetSelfSigned(bool selfSigned)
         {
-            this._selfSigned = selfSigned;
+            _selfSigned = selfSigned;
             return this;
         }
 
         public Client SetEndPoint(string endPoint)
         {
-            this._endPoint = endPoint;
+            _endPoint = endPoint;
             return this;
         }
 
@@ -101,119 +101,104 @@ namespace AppwriteSDK
             Dictionary<string, object> parameters)
         {
             if (_selfSigned)
-            {
                 ServicePointManager.ServerCertificateValidationCallback +=
                     (sender, certificate, chain, sslPolicyErrors) => true;
-            }
 
-            var methodGet = "GET".Equals(value: method, comparisonType: StringComparison.InvariantCultureIgnoreCase);
+            var methodGet = "GET".Equals(method, StringComparison.InvariantCultureIgnoreCase);
 
             var queryString = methodGet ? "?" + parameters.ToQueryString() : string.Empty;
 
-            var request = new HttpRequestMessage(method: new HttpMethod(method: method),
-                requestUri: _endPoint + path + queryString);
+            var request = new HttpRequestMessage(new HttpMethod(method),
+                _endPoint + path + queryString);
 
-            if ("multipart/form-data".Equals(value: headers[key: "content-type"],
-                    comparisonType: StringComparison.InvariantCultureIgnoreCase))
+            if ("multipart/form-data".Equals(headers["content-type"],
+                    StringComparison.InvariantCultureIgnoreCase))
             {
                 var form = new MultipartFormDataContent();
 
                 foreach (var parameter in parameters)
-                {
                     if (parameter.Key == "file")
                     {
-                        if (parameters[key: "file"] is not FileInfo fi) continue;
-                        var file = await File.ReadAllBytesAsync(path: fi.FullName);
+                        if (parameters["file"] is not FileInfo fi) continue;
+                        var file = await File.ReadAllBytesAsync(fi.FullName);
 
-                        form.Add(content: new ByteArrayContent(content: file, offset: 0, count: file.Length),
-                            name: "file", fileName: fi.Name);
+                        form.Add(new ByteArrayContent(file, 0, file.Length),
+                            "file", fi.Name);
                     }
                     else if (parameter.Value is IEnumerable<object> value)
                     {
-                        var list = new List<object>(collection: value);
+                        var list = new List<object>(value);
                         for (var index = 0; index < list.Count; index++)
-                        {
                             form.Add(
-                                content: new StringContent(content: list[index: index].ToString() ??
-                                                                    throw new InvalidOperationException()),
-                                name: $"{parameter.Key}[{index}]");
-                        }
+                                new StringContent(list[index].ToString() ??
+                                                  throw new InvalidOperationException()),
+                                $"{parameter.Key}[{index}]");
                     }
                     else
                     {
                         form.Add(
-                            content: new StringContent(content: parameter.Value.ToString() ??
-                                                                throw new InvalidOperationException()),
-                            name: parameter.Key);
+                            new StringContent(parameter.Value.ToString() ??
+                                              throw new InvalidOperationException()),
+                            parameter.Key);
                     }
-                }
 
                 request.Content = form;
             }
             else if (!methodGet)
             {
-                string body = parameters.ToJson();
+                var body = parameters.ToJson();
 
                 request.Content =
-                    new StringContent(content: body, encoding: Encoding.UTF8, mediaType: "application/json");
+                    new StringContent(body, Encoding.UTF8, "application/json");
             }
 
-            foreach (var header in this._headers)
-            {
-                if (header.Key.Equals(value: "content-type",
-                        comparisonType: StringComparison.InvariantCultureIgnoreCase))
+            foreach (var header in _headers)
+                if (header.Key.Equals("content-type",
+                        StringComparison.InvariantCultureIgnoreCase))
                 {
                     _http.DefaultRequestHeaders.Accept.Add(
-                        item: new MediaTypeWithQualityHeaderValue(mediaType: header.Value));
+                        new MediaTypeWithQualityHeaderValue(header.Value));
                 }
                 else
                 {
-                    if (_http.DefaultRequestHeaders.Contains(name: header.Key))
-                    {
-                        _http.DefaultRequestHeaders.Remove(name: header.Key);
-                    }
+                    if (_http.DefaultRequestHeaders.Contains(header.Key))
+                        _http.DefaultRequestHeaders.Remove(header.Key);
 
-                    _http.DefaultRequestHeaders.Add(name: header.Key, value: header.Value);
+                    _http.DefaultRequestHeaders.Add(header.Key, header.Value);
                 }
-            }
 
             foreach (var header in headers)
-            {
-                if (header.Key.Equals(value: "content-type",
-                        comparisonType: StringComparison.InvariantCultureIgnoreCase))
+                if (header.Key.Equals("content-type",
+                        StringComparison.InvariantCultureIgnoreCase))
                 {
-                    request.Headers.Accept.Add(item: new MediaTypeWithQualityHeaderValue(mediaType: header.Value));
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(header.Value));
                 }
                 else
                 {
-                    if (request.Headers.Contains(name: header.Key))
-                    {
-                        request.Headers.Remove(name: header.Key);
-                    }
+                    if (request.Headers.Contains(header.Key)) request.Headers.Remove(header.Key);
 
-                    request.Headers.Add(name: header.Key, value: header.Value);
+                    request.Headers.Add(header.Key, header.Value);
                 }
-            }
 
             try
             {
-                var httpResponseMessage = await _http.SendAsync(request: request);
+                var httpResponseMessage = await _http.SendAsync(request);
                 var code = (int)httpResponseMessage.StatusCode;
                 var response = await httpResponseMessage.Content.ReadAsStringAsync();
 
                 if (code < 400) return httpResponseMessage;
                 var message = response;
                 var isJson =
-                    httpResponseMessage.Content.Headers.GetValues(name: "Content-Type").FirstOrDefault()!.Contains(
-                        value: "application/json");
+                    httpResponseMessage.Content.Headers.GetValues("Content-Type").FirstOrDefault()!.Contains(
+                        "application/json");
 
-                if (!isJson) throw new AppwriteException(message: message, code: code, response: response);
-                message = (JObject.Parse(json: message))[propertyName: "message"]?.ToString();
-                throw new AppwriteException(message: message, code: code, response: response);
+                if (!isJson) throw new AppwriteException(message, code, response);
+                message = JObject.Parse(message)["message"]?.ToString();
+                throw new AppwriteException(message, code, response);
             }
             catch (Exception e)
             {
-                throw new AppwriteException(message: e.Message, inner: e);
+                throw new AppwriteException(e.Message, e);
             }
         }
     }

@@ -29,7 +29,7 @@ namespace AppwriteSDK.Services
         /// <param name="orderType"></param>
         /// <returns></returns>
         public async Task<HttpResponseMessage> ListAsync(string search = "", int? limit = 25, int? offset = 0,
-            string cursor = "", string cursorDirection = "",OrderType orderType = OrderType.Asc)
+            string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
         {
             const string path = "/teams";
 
@@ -153,7 +153,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get Team Logs Async
         /// </summary>
@@ -162,7 +162,7 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> GetLogsAsync(string teamId)
         {
             var path = $"/teams/{teamId}/logs";
-            
+
             var parameters = new Dictionary<string, object>();
 
             var headers = new Dictionary<string, string>()
@@ -198,8 +198,8 @@ namespace AppwriteSDK.Services
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
-                { "cursor", cursor},
-                { "cursorDirection", cursorDirection},
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
@@ -271,7 +271,7 @@ namespace AppwriteSDK.Services
             var path = $"/teams/{teamId}/memberships/{membershipId}";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -347,7 +347,8 @@ namespace AppwriteSDK.Services
         /// <param name="userId"></param>
         /// <param name="secret"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> UpdateMembershipStatusAsync(string teamId, string membershipId, string userId,
+        public async Task<HttpResponseMessage> UpdateMembershipStatusAsync(string teamId, string membershipId,
+            string userId,
             string secret)
         {
             var path = $"/teams/{teamId}/memberships/{membershipId}/status";

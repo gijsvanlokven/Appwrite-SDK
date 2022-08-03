@@ -25,21 +25,13 @@ namespace AppwriteSDK.Helpers
             var query = new List<string>();
 
             foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
-            {
                 if (parameter.Value is List<object>)
-                {
                     foreach (object entry in (dynamic)parameter.Value)
-                    {
                         query.Add(parameter.Key + "[]=" +
                                   Uri.EscapeUriString(entry.ToString() ?? throw new InvalidOperationException()));
-                    }
-                }
                 else
-                {
                     query.Add(parameter.Key + "=" +
                               Uri.EscapeUriString(parameter.Value.ToString() ?? throw new InvalidOperationException()));
-                }
-            }
 
             return string.Join("&", query);
         }

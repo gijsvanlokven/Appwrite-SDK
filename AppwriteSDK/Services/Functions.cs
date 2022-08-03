@@ -37,8 +37,8 @@ namespace AppwriteSDK.Services
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
-                {"cursor", cursor},
-                {"cursorDirection", cursorDirection},
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
@@ -67,14 +67,15 @@ namespace AppwriteSDK.Services
         /// <param name="schedule"></param>
         /// <param name="timeout"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateAsync(string functionId, string name, List<object> execute, string runtime,
+        public async Task<HttpResponseMessage> CreateAsync(string functionId, string name, List<object> execute,
+            string runtime,
             object vars = null, List<object> events = null, string schedule = "", int? timeout = 15)
         {
             const string path = "/functions";
 
             var parameters = new Dictionary<string, object>()
             {
-                {"functionId", functionId},
+                { "functionId", functionId },
                 { "name", name },
                 { "execute", execute },
                 { "runtime", runtime },
@@ -104,7 +105,7 @@ namespace AppwriteSDK.Services
             const string path = "/functions/runtimes";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -209,12 +210,12 @@ namespace AppwriteSDK.Services
         /// <param name="cursorDirection"></param>
         /// <param name="orderType"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> ListDeploymentsAsync(string functionId, string search = "", 
-            int? limit = 25, int? offset = 0, string cursor = "", string cursorDirection = "", 
+        public async Task<HttpResponseMessage> ListDeploymentsAsync(string functionId, string search = "",
+            int? limit = 25, int? offset = 0, string cursor = "", string cursorDirection = "",
             OrderType orderType = OrderType.Asc)
         {
             var path = $"/functions/{functionId}/deployments";
-            
+
             var parameters = new Dictionary<string, object>();
 
             var headers = new Dictionary<string, string>()
@@ -237,9 +238,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> ListExecutions(string functionId, string search = "", int? limit = 25,
             int? offset = 0, OrderType orderType = OrderType.Asc)
         {
-            string path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
+            var path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
@@ -247,7 +248,7 @@ namespace AppwriteSDK.Services
                 { "orderType", orderType.ToString() }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -266,14 +267,14 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> CreateExecution(string functionId, string data = "")
         {
-            string path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
+            var path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "data", data }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -289,14 +290,14 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> GetExecution(string functionId, string executionId)
         {
-            string path = "/functions/{functionId}/executions/{executionId}".Replace("{functionId}", functionId)
+            var path = "/functions/{functionId}/executions/{executionId}".Replace("{functionId}", functionId)
                 .Replace("{executionId}", executionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -314,14 +315,14 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> UpdateTag(string functionId, string tag)
         {
-            string path = "/functions/{functionId}/tag".Replace("{functionId}", functionId);
+            var path = "/functions/{functionId}/tag".Replace("{functionId}", functionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "tag", tag }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -339,9 +340,9 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> ListTags(string functionId, string search = "", int? limit = 25,
             int? offset = 0, OrderType orderType = OrderType.Asc)
         {
-            string path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
+            var path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
@@ -349,7 +350,7 @@ namespace AppwriteSDK.Services
                 { "orderType", orderType.ToString() }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -374,15 +375,15 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> CreateTag(string functionId, string command, FileInfo code)
         {
-            string path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
+            var path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "command", command },
                 { "code", code }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "multipart/form-data" }
             };
@@ -398,14 +399,14 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> GetTag(string functionId, string tagId)
         {
-            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
+            var path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
                 .Replace("{tagId}", tagId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -421,14 +422,14 @@ namespace AppwriteSDK.Services
         /// </summary>
         public async Task<HttpResponseMessage> DeleteTag(string functionId, string tagId)
         {
-            string path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
+            var path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
                 .Replace("{tagId}", tagId);
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };

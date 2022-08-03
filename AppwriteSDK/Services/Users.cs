@@ -60,13 +60,14 @@ namespace AppwriteSDK.Services
         /// <param name="password"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<HttpResponseMessage> CreateAsync(string userId, string email, string password, string name = "")
+        public async Task<HttpResponseMessage> CreateAsync(string userId, string email, string password,
+            string name = "")
         {
             const string path = "/users";
 
             var parameters = new Dictionary<string, object>()
             {
-                {"userId", userId},
+                { "userId", userId },
                 { "email", email },
                 { "password", password },
                 { "name", name }
@@ -80,7 +81,7 @@ namespace AppwriteSDK.Services
             return await _client.Call("POST", path, headers, parameters);
         }
 
-        
+
         /// <summary>
         /// Get Users Usage Async
         /// <para>
@@ -93,7 +94,7 @@ namespace AppwriteSDK.Services
             const string path = "/users/usage";
 
             var parameters = new Dictionary<string, object>();
-            
+
             var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
@@ -145,7 +146,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Email Async
         /// <para>
@@ -158,10 +159,10 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> UpdateEmailAsync(string userId, string email)
         {
             var path = $"/users/{userId}/email";
-            
+
             var parameters = new Dictionary<string, object>()
             {
-                {"email", email}
+                { "email", email }
             };
 
             var headers = new Dictionary<string, string>()
@@ -193,7 +194,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Get User Memberships Async
         /// <para>
@@ -215,7 +216,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("GET", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Name Async
         /// <para>
@@ -228,10 +229,10 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> UpdateNameAsync(string userId, string name)
         {
             var path = $"/users/{userId}/name";
-            
+
             var parameters = new Dictionary<string, object>()
             {
-                {"name", name}
+                { "name", name }
             };
 
             var headers = new Dictionary<string, string>()
@@ -241,7 +242,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("PATCH", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Password Async
         /// <para>
@@ -254,10 +255,10 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> UpdatePasswordAsync(string userId, string password)
         {
             var path = $"/users/{userId}/password";
-            
+
             var parameters = new Dictionary<string, object>()
             {
-                {"password", password}
+                { "password", password }
             };
 
             var headers = new Dictionary<string, string>()
@@ -267,7 +268,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("PATCH", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Phone Async
         /// <para>
@@ -280,10 +281,10 @@ namespace AppwriteSDK.Services
         public async Task<HttpResponseMessage> UpdatePhoneAsync(string userId, string number)
         {
             var path = $"/users/{userId}/phone";
-            
+
             var parameters = new Dictionary<string, object>()
             {
-                {"number", number}
+                { "number", number }
             };
 
             var headers = new Dictionary<string, string>()
@@ -387,15 +388,15 @@ namespace AppwriteSDK.Services
             return await _client.Call("DELETE", path, headers, parameters);
         }
 
-       /// <summary>
-       /// Delete User Session Async
-       /// <para>
-       /// Delete a user sessions by its unique ID.
-       /// </para>
-       /// </summary>
-       /// <param name="userId"></param>
-       /// <param name="sessionId"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Delete User Session Async
+        /// <para>
+        /// Delete a user sessions by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="sessionId"></param>
+        /// <returns></returns>
         public async Task<HttpResponseMessage> DeleteSessionAsync(string userId, string sessionId)
         {
             var path = $"/users/{userId}/sessions/{sessionId}";
@@ -461,7 +462,7 @@ namespace AppwriteSDK.Services
 
             return await _client.Call("PATCH", path, headers, parameters);
         }
-        
+
         /// <summary>
         /// Update Phone Verification Async
         /// <para>
