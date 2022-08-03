@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppwriteSDK;
+using Appwrite;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Health : Service
     {
@@ -12,20 +12,18 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get HTTP
+        /// Get HTTP Async
         /// <para>
         /// Check the Appwrite HTTP server is up and responsive.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get()
+        public async Task<HttpResponseMessage> GetAsync()
         {
-            string path = "/health";
+            const string path = "/health";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -34,20 +32,18 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Anti virus
+        /// Get Antivirus Async
         /// <para>
-        /// Check the Appwrite Anti Virus server is up and connection is successful.
+        /// Check the Appwrite Antivirus server is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetAntiVirus()
+        public async Task<HttpResponseMessage> GetAntivirusAsync()
         {
-            string path = "/health/anti-virus";
+            const string path = "/health/anti-virus";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -56,21 +52,19 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Cache
+        /// Get Cache Async
         /// <para>
         /// Check the Appwrite in-memory cache server is up and connection is
         /// successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetCache()
+        public async Task<HttpResponseMessage> GetCacheAsync()
         {
-            string path = "/health/cache";
+            const string path = "/health/cache";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -79,20 +73,18 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get DB
+        /// Get DB Async
         /// <para>
         /// Check the Appwrite database server is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetDB()
+        public async Task<HttpResponseMessage> GetDbAsync()
         {
-            string path = "/health/db";
+            const string path = "/health/db";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -101,22 +93,20 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Certificate Queue
+        /// Get Certificates Queue Async
         /// <para>
         /// Get the number of certificates that are waiting to be issued against
         /// [Letsencrypt](https://letsencrypt.org/) in the Appwrite internal queue
         /// server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueCertificates()
+        public async Task<HttpResponseMessage> GetQueueCertificatesAsync()
         {
-            string path = "/health/queue/certificates";
+            const string path = "/health/queue/certificates";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -125,17 +115,15 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Functions Queue
+        /// Get Functions Queue Async
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueFunctions()
+        public async Task<HttpResponseMessage> GetQueueFunctionsAsync()
         {
-            string path = "/health/queue/functions";
+            const string path = "/health/queue/functions";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -144,121 +132,69 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Logs Queue
+        /// Get Logs Queue Async
         /// <para>
         /// Get the number of logs that are waiting to be processed in the Appwrite
         /// internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueLogs()
+        public async Task<HttpResponseMessage> GetQueueLogsAsync()
         {
-            string path = "/health/queue/logs";
+            const string path = "/health/queue/logs";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("GET", path, headers, parameters);
         }
-
+        
         /// <summary>
-        /// Get Tasks Queue
-        /// <para>
-        /// Get the number of tasks that are waiting to be processed in the Appwrite
-        /// internal queue server.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> GetQueueTasks()
-        {
-            string path = "/health/queue/tasks";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("GET", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Get Usage Queue
-        /// <para>
-        /// Get the number of usage stats that are waiting to be processed in the
-        /// Appwrite internal queue server.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> GetQueueUsage()
-        {
-            string path = "/health/queue/usage";
-
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("GET", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Get Webhooks Queue
+        /// Get Webhooks Queue Async
         /// <para>
         /// Get the number of webhooks that are waiting to be processed in the Appwrite
         /// internal queue server.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetQueueWebhooks()
+        public async Task<HttpResponseMessage> GetQueueWebhooksAsync()
         {
-            string path = "/health/queue/webhooks";
+            const string path = "/health/queue/webhooks";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("GET", path, headers, parameters);
         }
-
+        
         /// <summary>
-        /// Get Local Storage
+        /// Get Local Storage Async
         /// <para>
         /// Check the Appwrite local storage device is up and connection is successful.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetStorageLocal()
+        public async Task<HttpResponseMessage> GetStorageLocalAsync()
         {
-            string path = "/health/storage/local";
+            const string path = "/health/storage/local";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("GET", path, headers, parameters);
         }
-
+        
         /// <summary>
-        /// Get Time
+        /// Get Time Async
         /// <para>
         /// Check the Appwrite server time is synced with Google remote NTP server. We
         /// use this technology to smoothly handle leap seconds with no disruptive
@@ -269,20 +205,19 @@ namespace Appwrite
         /// uses NTP.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetTime()
+        public async Task<HttpResponseMessage> GetTimeAsync()
         {
-            string path = "/health/time";
+            const string path = "/health/time";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("GET", path, headers, parameters);
         }
+        
     };
 }
