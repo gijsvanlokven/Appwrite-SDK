@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AppwriteSDK;
+using Appwrite;
 using AppwriteSDK.Models;
 
-namespace Appwrite
+namespace AppwriteSDK.Services
 {
     public class Teams : Service
     {
@@ -13,28 +13,37 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// List Teams
+        /// List Teams Async
         /// <para>
         /// Get a list of all the current user teams. You can use the query params to
         /// filter your results. On admin mode, this endpoint will return a list of all
         /// of the project's teams. [Learn more about different API
         /// modes](/docs/admin).
-        /// </para>
+        /// </para>s
         /// </summary>
-        public async Task<HttpResponseMessage> List(string search = "", int? limit = 25, int? offset = 0,
-            OrderType orderType = OrderType.Asc)
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListAsync(string search = "", int? limit = 25, int? offset = 0,
+            string cursor = "", string cursorDirection = "",OrderType orderType = OrderType.Asc)
         {
-            string path = "/teams";
+            const string path = "/teams";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -43,7 +52,7 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Create Team
+        /// Create Team Async
         /// <para>
         /// Create a new team. The user who creates the team will automatically be
         /// assigned as the owner of the team. The team owner can invite new members,
@@ -51,17 +60,22 @@ namespace Appwrite
         /// project.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Create(string name, List<object> roles = null)
+        /// <param name="teamId"></param>
+        /// <param name="name"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateAsync(string teamId, string name, List<object> roles = null)
         {
-            string path = "/teams";
+            const string path = "/teams";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
+                { "teamId", teamId },
                 { "name", name },
                 { "roles", roles }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -70,21 +84,21 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Get Team
+        /// Get Team Async
         /// <para>
         /// Get a team by its unique ID. All team members have read access for this
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Get(string teamId)
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetAsync(string teamId)
         {
-            string path = "/teams/{teamId}".Replace("{teamId}", teamId);
+            var path = $"/teams/{teamId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -93,22 +107,25 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update Team
+        /// Update Team Async
         /// <para>
         /// Update a team by its unique ID. Only team owners have write access for this
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Update(string teamId, string name)
+        /// <param name="teamId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateAsync(string teamId, string name)
         {
-            string path = "/teams/{teamId}".Replace("{teamId}", teamId);
+            var path = $"/teams/{teamId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "name", name }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -117,49 +134,38 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete Team
+        /// Delete Team Async
         /// <para>
         /// Delete a team by its unique ID. Only team owners have write access for this
         /// resource.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> Delete(string teamId)
+        public async Task<HttpResponseMessage> DeleteAsync(string teamId)
         {
-            string path = "/teams/{teamId}".Replace("{teamId}", teamId);
+            var path = $"/teams/{teamId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
 
             return await _client.Call("DELETE", path, headers, parameters);
         }
-
+        
         /// <summary>
-        /// Get Team Memberships
-        /// <para>
-        /// Get a team members by the team unique ID. All team members have read access
-        /// for this list of resources.
-        /// </para>
+        /// Get Team Logs Async
         /// </summary>
-        public async Task<HttpResponseMessage> GetMemberships(string teamId, string search = "", int? limit = 25,
-            int? offset = 0, OrderType orderType = OrderType.Asc)
+        /// <param name="teamId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetLogsAsync(string teamId)
         {
-            string path = "/teams/{teamId}/memberships".Replace("{teamId}", teamId);
+            var path = $"/teams/{teamId}/logs";
+            
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                { "search", search },
-                { "limit", limit },
-                { "offset", offset },
-                { "orderType", orderType.ToString() }
-            };
-
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -168,7 +174,45 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Create Team Membership
+        /// Get Team Memberships Async
+        /// <para>
+        /// Get a team members by the team unique ID. All team members have read access
+        /// for this list of resources.
+        /// </para>
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetMembershipsAsync(string teamId, string search = "", int? limit = 25,
+            int? offset = 0, string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
+        {
+            var path = $"/teams/{teamId}/memberships";
+
+            var parameters = new Dictionary<string, object>()
+            {
+                { "search", search },
+                { "limit", limit },
+                { "offset", offset },
+                { "cursor", cursor},
+                { "cursorDirection", cursorDirection},
+                { "orderType", orderType.ToString() }
+            };
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Create Team Membership Async
         /// <para>
         /// Use this endpoint to invite a new member to join your team. An email with a
         /// link to join the team will be sent to the new member email address if the
@@ -179,18 +223,24 @@ namespace Appwrite
         /// Status](/docs/client/teams#teamsUpdateMembershipStatus) endpoint to allow
         /// the user to accept the invitation to the team.
         /// 
-        /// Please note that in order to avoid a [Redirect
-        /// Attacks](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
+        /// Please note that in order to avoid a [Redirect Attacks]
+        /// (https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md)
         /// the only valid redirect URL's are the once from domains you have set when
         /// added your platforms in the console interface.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateMembership(string teamId, string email, List<object> roles,
+        /// <param name="teamId"></param>
+        /// <param name="email"></param>
+        /// <param name="roles"></param>
+        /// <param name="url"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateMembershipAsync(string teamId, string email, List<object> roles,
             string url, string name = "")
         {
-            string path = "/teams/{teamId}/memberships".Replace("{teamId}", teamId);
+            var path = $"/teams/{teamId}/memberships";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "email", email },
                 { "name", name },
@@ -198,7 +248,7 @@ namespace Appwrite
                 { "url", url }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -207,20 +257,51 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update Membership Roles
+        /// Get Team Membership
+        /// <para>
+        /// Get a team member by the membership unique id.
+        /// All team members have read access for this resource.
+        /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateMembershipRoles(string teamId, string membershipId,
+        /// <param name="teamId"></param>
+        /// <param name="membershipId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetMembershipAsync(string teamId, string membershipId)
+        {
+            var path = $"/teams/{teamId}/memberships/{membershipId}";
+
+            var parameters = new Dictionary<string, object>();
+            
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await _client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Update Membership Roles
+        /// <para>
+        /// Modify the roles of a team member. Only team members with the owner role have access to this endpoint.
+        /// Learn more about [roles and permissions](https://appwrite.io/docs/permissions).
+        /// </para>
+        /// </summary>
+        /// <param name="teamId"></param>
+        /// <param name="membershipId"></param>
+        /// <param name="roles"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateMembershipRolesAsync(string teamId, string membershipId,
             List<object> roles)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId)
-                .Replace("{membershipId}", membershipId);
+            var path = $"/teams/{teamId}/memberships/{membershipId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "roles", roles }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -229,23 +310,23 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Delete Team Membership
+        /// Delete Team Membership Async
         /// <para>
         /// This endpoint allows a user to leave a team or for a team owner to delete
         /// the membership of any other team member. You can also use this endpoint to
         /// delete a user membership even if it is not accepted.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> DeleteMembership(string teamId, string membershipId)
+        /// <param name="teamId"></param>
+        /// <param name="membershipId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteMembershipAsync(string teamId, string membershipId)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}".Replace("{teamId}", teamId)
-                .Replace("{membershipId}", membershipId);
+            var path = $"/teams/{teamId}/memberships/{membershipId}";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-            };
+            var parameters = new Dictionary<string, object>();
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
@@ -254,26 +335,30 @@ namespace Appwrite
         }
 
         /// <summary>
-        /// Update Team Membership Status
+        /// Update Team Membership Status Async
         /// <para>
         /// Use this endpoint to allow a user to accept an invitation to join a team
         /// after being redirected back to your app from the invitation email recieved
         /// by the user.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> UpdateMembershipStatus(string teamId, string membershipId, string userId,
+        /// <param name="teamId"></param>
+        /// <param name="membershipId"></param>
+        /// <param name="userId"></param>
+        /// <param name="secret"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateMembershipStatusAsync(string teamId, string membershipId, string userId,
             string secret)
         {
-            string path = "/teams/{teamId}/memberships/{membershipId}/status".Replace("{teamId}", teamId)
-                .Replace("{membershipId}", membershipId);
+            var path = $"/teams/{teamId}/memberships/{membershipId}/status";
 
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "userId", userId },
                 { "secret", secret }
             };
 
-            Dictionary<string, string> headers = new Dictionary<string, string>()
+            var headers = new Dictionary<string, string>()
             {
                 { "content-type", "application/json" }
             };
