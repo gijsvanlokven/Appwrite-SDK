@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Appwrite;
 using AppwriteSDK.Helpers;
 
 namespace AppwriteSDK.Services
@@ -19,9 +18,14 @@ namespace AppwriteSDK.Services
         /// change the output settings.
         /// </para>
         /// </summary>
+        /// <param name="code"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
         public string GetBrowser(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            var path = "/avatars/browsers/{code}".Replace("{code}", code);
+            var path = $"/avatars/browsers/{code}";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -30,7 +34,7 @@ namespace AppwriteSDK.Services
                 { "quality", quality }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -41,9 +45,14 @@ namespace AppwriteSDK.Services
         /// output settings.
         /// </para>
         /// </summary>
+        /// <param name="code"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
         public string GetCreditCard(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            var path = "/avatars/credit-cards/{code}".Replace("{code}", code);
+            var path = $"/avatars/credit-cards/{code}";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -52,7 +61,7 @@ namespace AppwriteSDK.Services
                 { "quality", quality }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -60,9 +69,10 @@ namespace AppwriteSDK.Services
         /// <para>
         /// Use this endpoint to fetch the favorite icon (AKA favicon) of any remote
         /// website URL.
-        /// 
         /// </para>
         /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public string GetFavicon(string url)
         {
             const string path = "/avatars/favicon";
@@ -72,7 +82,7 @@ namespace AppwriteSDK.Services
                 { "url", url }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -83,9 +93,14 @@ namespace AppwriteSDK.Services
         /// height and quality arguments to change the output settings.
         /// </para>
         /// </summary>
+        /// <param name="code"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
         public string GetFlag(string code, int? width = 100, int? height = 100, int? quality = 100)
         {
-            var path = "/avatars/flags/{code}".Replace("{code}", code);
+            var path = $"/avatars/flags/{code}";
 
             var parameters = new Dictionary<string, object>()
             {
@@ -94,7 +109,7 @@ namespace AppwriteSDK.Services
                 { "quality", quality }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -106,6 +121,10 @@ namespace AppwriteSDK.Services
         /// image is properly served using a TLS protocol.
         /// </para>
         /// </summary>
+        /// <param name="url"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public string GetImage(string url, int? width = 400, int? height = 400)
         {
             const string path = "/avatars/image";
@@ -117,7 +136,7 @@ namespace AppwriteSDK.Services
                 { "height", height }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -135,6 +154,12 @@ namespace AppwriteSDK.Services
         /// the same initials.
         /// </para>
         /// </summary>
+        /// <param name="name"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="color"></param>
+        /// <param name="background"></param>
+        /// <returns></returns>
         public string GetInitials(string name = "", int? width = 500, int? height = 500, string color = "",
             string background = "")
         {
@@ -149,7 +174,7 @@ namespace AppwriteSDK.Services
                 { "background", background }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
 
         /// <summary>
@@ -159,6 +184,11 @@ namespace AppwriteSDK.Services
         /// parameters to change the size and style of the resulting image.
         /// </para>
         /// </summary>
+        /// <param name="text"></param>
+        /// <param name="size"></param>
+        /// <param name="margin"></param>
+        /// <param name="download"></param>
+        /// <returns></returns>
         public string GetQr(string text, int? size = 400, int? margin = 1, bool? download = false)
         {
             const string path = "/avatars/qr";
@@ -171,7 +201,7 @@ namespace AppwriteSDK.Services
                 { "download", download }
             };
 
-            return _client.GetEndPoint() + path + "?" + parameters.ToQueryString();
+            return Client.GetEndPoint() + path + "?" + parameters.ToQueryString();
         }
     };
 }

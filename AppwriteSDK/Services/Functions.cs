@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Appwrite;
 using AppwriteSDK.Models;
 
 namespace AppwriteSDK.Services
@@ -47,7 +46,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("POST", path, headers, parameters);
+            return await Client.Call("POST", path, headers, parameters);
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -133,7 +132,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("PUT", path, headers, parameters);
+            return await Client.Call("PUT", path, headers, parameters);
         }
 
         /// <summary>
@@ -192,7 +191,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("DELETE", path, headers, parameters);
         }
 
         /// <summary>
@@ -223,28 +222,167 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
-        /// List Executions
+        /// Create Deployment Async
         /// <para>
-        /// Get a list of all the current user function execution logs. You can use the
-        /// query params to filter your results. On admin mode, this endpoint will
-        /// return a list of all of the project's executions. [Learn more about
-        /// different API modes](/docs/admin).
+        /// Create a new function code deployment. Use this endpoint to upload a new version of your code function.
+        /// To execute your newly uploaded code, you'll need to update the
+        /// function's deployment to use your new deployment UID.
+        /// This endpoint accepts a tar.gz file compressed with your code.
+        /// Make sure to include any dependencies your code has within the compressed file.
+        /// You can learn more about code packaging in the [Appwrite Cloud Functions tutorial](https://appwrite.io/docs/functions).
+        /// Use the "command" param to set the entry point used to execute your code.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> ListExecutions(string functionId, string search = "", int? limit = 25,
-            int? offset = 0, OrderType orderType = OrderType.Asc)
+        /// <param name="functionId"></param>
+        /// <param name="entrypoint"></param>
+        /// <param name="code"></param>
+        /// <param name="activate"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateDeploymentAsync(string functionId, string entrypoint,
+            FileInfo code, bool activate)
         {
-            var path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
+            var path = $"/functions/{functionId}/deployments";
+
+            var parameters = new Dictionary<string, object>
+            {
+                { "entrypoint", entrypoint },
+                { "code", code },
+                { "activate", activate }
+            };
+
+            var headers = new Dictionary<string, string>
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("POST", path, headers, parameters);
+        }
+
+        /// <summary>
+        ///     Get Deployment Async
+        ///     <para>
+        ///         Get a code deployment by its unique ID.
+        ///     </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="deploymentId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetDeploymentAsync(string functionId, string deploymentId)
+        {
+            var path = $"/functions/{functionId}/deployments/{deploymentId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Update Deployment Async
+        /// <para>
+        /// Update the function code deployment ID using the unique function ID.
+        /// Use this endpoint to switch the code deployment that should be executed by the execution endpoint.
+        /// </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="deploymentId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> UpdateDeploymentAsync(string functionId, string deploymentId)
+        {
+            var path = $"/functions/{functionId}/deployments/{deploymentId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("PATCH", path, headers, parameters);
+        }
+
+        /// <summary>
+        ///     Delete Deployment Async
+        ///     <para>
+        ///         Delete a code deployment by its unique ID.
+        ///     </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="deploymentId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> DeleteDeploymentAsync(string functionId, string deploymentId)
+        {
+            var path = $"/functions/{functionId}/deployments/{deploymentId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("DELETE", path, headers, parameters);
+        }
+
+        /// <summary>
+        ///     Retry Build Async
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="deploymentId"></param>
+        /// <param name="buildId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> RetryBuildAsync(string functionId, string deploymentId, string buildId)
+        {
+            var path = $"/functions/{functionId}/deployments/{deploymentId}/builds/{buildId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("POST", path, headers, parameters);
+        }
+
+        /// <summary>
+        ///     List Executions Async
+        ///     <para>
+        ///         Get a list of all the current user function execution logs. You can use the
+        ///         query params to filter your results. On admin mode, this endpoint will
+        ///         return a list of all of the project's executions. [Learn more about
+        ///         different API modes](/docs/admin).
+        ///     </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="search"></param>
+        /// <param name="limit"></param>
+        /// <param name="offset"></param>
+        /// <param name="cursor"></param>
+        /// <param name="cursorDirection"></param>
+        /// <param name="orderType"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> ListExecutionsAsync(string functionId, string search = "",
+            int? limit = 25,
+            int? offset = 0, string cursor = "", string cursorDirection = "", OrderType orderType = OrderType.Asc)
+        {
+            var path = $"/functions/{functionId}/executions";
 
             var parameters = new Dictionary<string, object>()
             {
                 { "search", search },
                 { "limit", limit },
                 { "offset", offset },
+                { "cursor", cursor },
+                { "cursorDirection", cursorDirection },
                 { "orderType", orderType.ToString() }
             };
 
@@ -253,11 +391,11 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
 
         /// <summary>
-        /// Create Execution
+        /// Create Execution Async
         /// <para>
         /// Trigger a function execution. The returned object will return you the
         /// current execution status. You can ping the `Get Execution` endpoint to get
@@ -265,13 +403,19 @@ namespace AppwriteSDK.Services
         /// function execution process will start asynchronously.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> CreateExecution(string functionId, string data = "")
+        /// <param name="functionId"></param>
+        /// <param name="data"></param>
+        /// <param name="async"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> CreateExecutionAsync(string functionId, string data = "",
+            bool async = false)
         {
-            var path = "/functions/{functionId}/executions".Replace("{functionId}", functionId);
+            var path = $"/functions/{functionId}/executions";
 
             var parameters = new Dictionary<string, object>()
             {
-                { "data", data }
+                { "data", data },
+                { "async", async }
             };
 
             var headers = new Dictionary<string, string>()
@@ -279,7 +423,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("POST", path, headers, parameters);
+            return await Client.Call("POST", path, headers, parameters);
         }
 
         /// <summary>
@@ -293,8 +437,52 @@ namespace AppwriteSDK.Services
             var path = "/functions/{functionId}/executions/{executionId}".Replace("{functionId}", functionId)
                 .Replace("{executionId}", executionId);
 
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Get Execution Async
+        /// <para>
+        /// Get a function execution log by its unique ID.
+        /// </para>
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="executionId"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetExecutionAsync(string functionId, string executionId)
+        {
+            var path = $"/functions/{functionId}/executions/{executionId}";
+
+            var parameters = new Dictionary<string, object>();
+
+            var headers = new Dictionary<string, string>()
+            {
+                { "content-type", "application/json" }
+            };
+
+            return await Client.Call("GET", path, headers, parameters);
+        }
+
+        /// <summary>
+        /// Get Function Usage Async
+        /// </summary>
+        /// <param name="functionId"></param>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public async Task<HttpResponseMessage> GetFunctionUsageAsync(string functionId, string range = "30d")
+        {
+            var path = $"/functions/{functionId}/usage";
+
             var parameters = new Dictionary<string, object>()
             {
+                { "range", range }
             };
 
             var headers = new Dictionary<string, string>()
@@ -302,139 +490,7 @@ namespace AppwriteSDK.Services
                 { "content-type", "application/json" }
             };
 
-            return await _client.Call("GET", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Update Function Tag
-        /// <para>
-        /// Update the function code tag ID using the unique function ID. Use this
-        /// endpoint to switch the code tag that should be executed by the execution
-        /// endpoint.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> UpdateTag(string functionId, string tag)
-        {
-            var path = "/functions/{functionId}/tag".Replace("{functionId}", functionId);
-
-            var parameters = new Dictionary<string, object>()
-            {
-                { "tag", tag }
-            };
-
-            var headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("PATCH", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// List Tags
-        /// <para>
-        /// Get a list of all the project's code tags. You can use the query params to
-        /// filter your results.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> ListTags(string functionId, string search = "", int? limit = 25,
-            int? offset = 0, OrderType orderType = OrderType.Asc)
-        {
-            var path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
-
-            var parameters = new Dictionary<string, object>()
-            {
-                { "search", search },
-                { "limit", limit },
-                { "offset", offset },
-                { "orderType", orderType.ToString() }
-            };
-
-            var headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("GET", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Create Tag
-        /// <para>
-        /// Create a new function code tag. Use this endpoint to upload a new version
-        /// of your code function. To execute your newly uploaded code, you'll need to
-        /// update the function's tag to use your new tag UID.
-        /// 
-        /// This endpoint accepts a tar.gz file compressed with your code. Make sure to
-        /// include any dependencies your code has within the compressed file. You can
-        /// learn more about code packaging in the [Appwrite Cloud Functions
-        /// tutorial](/docs/functions).
-        /// 
-        /// Use the "command" param to set the entry point used to execute your code.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> CreateTag(string functionId, string command, FileInfo code)
-        {
-            var path = "/functions/{functionId}/tags".Replace("{functionId}", functionId);
-
-            var parameters = new Dictionary<string, object>()
-            {
-                { "command", command },
-                { "code", code }
-            };
-
-            var headers = new Dictionary<string, string>()
-            {
-                { "content-type", "multipart/form-data" }
-            };
-
-            return await _client.Call("POST", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Get Tag
-        /// <para>
-        /// Get a code tag by its unique ID.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> GetTag(string functionId, string tagId)
-        {
-            var path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
-                .Replace("{tagId}", tagId);
-
-            var parameters = new Dictionary<string, object>()
-            {
-            };
-
-            var headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("GET", path, headers, parameters);
-        }
-
-        /// <summary>
-        /// Delete Tag
-        /// <para>
-        /// Delete a code tag by its unique ID.
-        /// </para>
-        /// </summary>
-        public async Task<HttpResponseMessage> DeleteTag(string functionId, string tagId)
-        {
-            var path = "/functions/{functionId}/tags/{tagId}".Replace("{functionId}", functionId)
-                .Replace("{tagId}", tagId);
-
-            var parameters = new Dictionary<string, object>()
-            {
-            };
-
-            var headers = new Dictionary<string, string>()
-            {
-                { "content-type", "application/json" }
-            };
-
-            return await _client.Call("DELETE", path, headers, parameters);
+            return await Client.Call("GET", path, headers, parameters);
         }
     };
 }
