@@ -21,7 +21,7 @@ namespace AppwriteSDK
         private string _endPoint;
         private bool _selfSigned;
 
-        public Client() : this("https://appwrite.io/v1", false, new HttpClient())
+        protected Client() : this("https://appwrite.io/v1", false, new HttpClient())
         {
         }
 
@@ -97,7 +97,7 @@ namespace AppwriteSDK
             _headers.Add(key, value);
         }
 
-        public async Task<HttpResponseMessage> Call(string method, string path, Dictionary<string, string> headers,
+        public virtual async Task<HttpResponseMessage> Call(string method, string path, Dictionary<string, string> headers,
             Dictionary<string, object> parameters)
         {
             if (_selfSigned)

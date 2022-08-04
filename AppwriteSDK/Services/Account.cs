@@ -66,11 +66,15 @@ namespace AppwriteSDK.Services
         /// log returns user IP address, location and date and time of log.
         /// </para>
         /// </summary>
-        public async Task<HttpResponseMessage> GetLogsAsync()
+        public async Task<HttpResponseMessage> GetLogsAsync(int limit = 25, int offset = 0)
         {
             const string path = "/account/logs";
 
-            var parameters = new Dictionary<string, object>();
+            var parameters = new Dictionary<string, object>()
+            {
+                {"limit", limit},
+                {"offset", offset}
+            };
 
             var headers = new Dictionary<string, string>()
             {

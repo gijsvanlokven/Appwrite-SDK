@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppwriteSDK", "AppwriteSDK\AppwriteSDK.csproj", "{B925520F-AF0D-47A0-9F0E-D96BA6964510}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppwriteSDK-Tests", "AppwriteSDK-Tests\AppwriteSDK-Tests.csproj", "{A5788984-AD38-4557-B445-5A60E66AE9DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{B925520F-AF0D-47A0-9F0E-D96BA6964510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B925520F-AF0D-47A0-9F0E-D96BA6964510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B925520F-AF0D-47A0-9F0E-D96BA6964510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5788984-AD38-4557-B445-5A60E66AE9DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5788984-AD38-4557-B445-5A60E66AE9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5788984-AD38-4557-B445-5A60E66AE9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5788984-AD38-4557-B445-5A60E66AE9DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
